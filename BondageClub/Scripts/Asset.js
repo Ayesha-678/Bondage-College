@@ -167,6 +167,7 @@ function AssetMapLayer(Layer, AssetDefinition, A) {
 		Name: Layer.Name || null,
 		AllowColorize: AssetLayerAllowColorize(Layer, AssetDefinition),
 		CopyLayerColor: Layer.CopyLayerColor || null,
+		ColorGroup: Layer.ColorGroup,
 		AllowTypes: Array.isArray(Layer.AllowTypes) ? Layer.AllowTypes : null,
 		HasType: typeof Layer.HasType === "boolean" ? Layer.HasType : true,
 		ParentGroupName: Layer.ParentGroup,

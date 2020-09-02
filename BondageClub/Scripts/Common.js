@@ -346,7 +346,37 @@ function CommonConvertArrayToString(Arr) {
  */
 function CommonColorsEqual(C1, C2) {
 	if (Array.isArray(C1) && Array.isArray(C2)) {
-		return C1.length === C2.length && C1.every((C, I) => C2[I] === C);
+		return CommonArraysEqual(C1, C2);
 	}
 	return C1 === C2;
+}
+
+function CommonArraysEqual(a1, a2) {
+	return a1.length === a2.length && a1.every((item, i) => item === a2[i]);
+}
+
+function CommonDebounce(func, wait) {
+	let timeout, args, context, timestamp, result;
+	wait = typeof wait === "number" ? wait : 100;
+
+	function later() {
+		const last = CommonTime() - timestamp;
+		if (last >= 0 && last < wait) {
+			timeout = setTimeout(later, wait - last);
+		} else {
+			timeout = null;
+			result = func.apply(context, args);
+			context = args = null;
+		}
+	}
+
+	return function () {
+		context = this;
+		args = arguments;
+		timestamp = CommonTime();
+		if (!timeout) {
+			timeout = setTimeout(later, wait);
+		}
+		return result;
+	};
 }
