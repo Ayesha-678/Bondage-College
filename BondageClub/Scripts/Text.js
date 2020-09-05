@@ -42,7 +42,8 @@ function TextBuild(CSV) {
 
 
 /**
- * Loads the CSV text file of the current screen into the buffer. It will get the CSV from the cache if the file was already fetched from the server
+ * Loads the CSV text file of the current screen into the buffer. It will get the CSV from the cache if the file was already fetched from
+ * the server
  * @param {string} TextGroup - Screen for which to load the CSV of
  * @returns {void} - Nothing
  */
@@ -65,4 +66,70 @@ function TextLoad(TextGroup) {
 		}
 	});
 
+}
+
+class TextCache {
+	path;
+	language;
+	cache = {};
+
+	constructor(path) {
+		this.path = path;
+		this.buildCache();
+	}
+
+	get(key) {
+		if (TranslationLanguage !== this.language) {
+			this.buildCache();
+		}
+		return this.cache[key] || key;
+	}
+
+	buildCache() {
+		this.fetchCsv()
+			.then((lines) => this.translate(lines))
+			.then((lines) => this.cacheLines(lines));
+	}
+
+	fetchCsv() {
+		if (CommonCSVCache[this.path]) return Promise.resolve(CommonCSVCache[this.path]);
+		return new Promise((resolve) => {
+			CommonGet(this.path, (xhr) => {
+				if (xhr.status === 200) {
+					CommonCSVCache[this.path] = CommonParseCSV(xhr.responseText);
+					return resolve(CommonCSVCache[this.path]);
+				}
+				return Promise.resolve([]);
+			});
+		});
+	}
+
+	cacheLines(lines) {
+		lines.forEach((line) => (this.cache[line[0]] = line[1]));
+	}
+
+	translate(lines) {
+		this.language = TranslationLanguage;
+		const lang = (TranslationLanguage || "").trim().toUpperCase();
+		if (!lang || lang === "EN") return Promise.resolve(lines);
+
+		const translationPath = this.path.replace(/\/([^/]+)\.csv$/, `/Text_$1_${lang}.txt`);
+		if (TranslationCache[translationPath]) {
+			return Promise.resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
+		} else {
+			return new Promise((resolve) => {
+				CommonGet(translationPath, (xhr) => {
+					if (xhr.status === 200) {
+						TranslationCache[translationPath] = TranslationParseTXT(xhr.responseText);
+						return resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
+					}
+					return resolve(lines);
+				});
+			});
+		}
+	}
+
+	buildTranslations(lines, translations) {
+		return lines.map(line => ([line[0], TranslationString(line[1], translations, "")]));
+	}
 }

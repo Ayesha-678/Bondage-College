@@ -158,7 +158,7 @@ function CommonReadCSV(Array, Path, Screen, File) {
 function CommonGet(Path, Callback) {
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", Path);
-	xhr.onreadystatechange = function () { if (this.readyState == 4) Callback.bind(this)(); };
+	xhr.onreadystatechange = function () { if (this.readyState == 4) Callback.bind(this)(xhr); };
 	xhr.send(null);
 }
 

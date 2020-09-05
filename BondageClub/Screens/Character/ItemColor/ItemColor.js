@@ -21,10 +21,13 @@ let ItemColorStateKey;
 let ItemColorState;
 let ItemColorPage;
 let ItemColorLayerPages = {};
-let ItemColorPickerBackup = null;
+let ItemColorPickerBackup;
 let ItemColorPickerIndices = [];
 let ItemColorExitListeners = [];
 let ItemColorBackup;
+let ItemColorText = new TextCache("Screens/Character/ItemColor/ItemColor.csv");
+let ItemColorLayerNames;
+let ItemColorGroupNames;
 
 function ItemColorLoad(c, item, x, y, width, height) {
 	ItemColorCharacter = c;
@@ -42,6 +45,8 @@ function ItemColorLoad(c, item, x, y, width, height) {
 	if (ItemColorState.simpleMode) {
 		ItemColorOpenPicker(ItemColorState.layerGroups[0]);
 	}
+	ItemColorLayerNames = new TextCache(`Assets/${c.AssetFamily}/LayerNames.csv`);
+	ItemColorGroupNames = new TextCache(`Assets/${c.AssetFamily}/ColorGroups.csv`);
 }
 
 function ItemColorDraw(c, group, x, y, width, height) {
@@ -53,10 +58,16 @@ function ItemColorDraw(c, group, x, y, width, height) {
 
 	const headerButtonSize = ItemColorConfig.headerButtonSize;
 	if (ItemColorCurrentMode === ItemColorMode.DEFAULT && ItemColorState.pageCount > 1) {
-		DrawButton(ItemColorState.paginationButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Next.png", "Next page");
+		DrawButton(ItemColorState.paginationButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Next.png", ItemColorText.get("Next"));
 	}
-	DrawButton(ItemColorState.cancelButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Cancel.png", TextGet("Cancel"));
-	DrawButton(ItemColorState.saveButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Accept.png", TextGet("Accept"));
+	DrawButton(
+		ItemColorState.cancelButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Cancel.png",
+		ItemColorText.get("Cancel"),
+	);
+	DrawButton(
+		ItemColorState.saveButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Accept.png",
+		ItemColorText.get("Accept"),
+	);
 
 	const contentY = ItemColorState.contentY;
 
@@ -90,26 +101,28 @@ function ItemColorDrawDefault(x, y) {
 
 	layerGroups.forEach((layerGroup, i) => {
 		const groupY = y + (i * (buttonHeight + buttonSpacing));
+		const asset = ItemColorItem.Asset;
 		let groupName, buttonText, buttonColor;
 		let isBackNextButton = false;
 		if (layerGroup.name === null) {
-			groupName = "Whole Item";
+			groupName = ItemColorText.get("WholeItem");
 			buttonText = ItemColorGetColorButtonText(colors);
 			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
 		} else if (layerGroup.layers.length === 1) {
-			groupName = layerGroup.name;
+			groupName = ItemColorLayerNames.get(asset.Group.Name + asset.Name + layerGroup.name);
 			buttonText = colors[layerGroup.layers[0].ColorIndex];
 			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
 		} else {
 			let currentColors;
 			const layerPage = ItemColorLayerPages[layerGroup.name];
+			const layerGroupName = ItemColorGroupNames.get(layerGroup.name);
 			if (layerPage === 0) {
 				currentColors = layerGroup.layers.map(layer => colors[layer.ColorIndex]);
-				groupName = layerGroup.name + ": All";
+				groupName = layerGroupName + ": " + ItemColorText.get("All");
 			} else {
 				const layer = layerGroup.layers[layerPage - 1];
 				currentColors = colors[layer.ColorIndex];
-				groupName = layerGroup.name + ": " + layer.Name;
+				groupName = layerGroupName + ": " + ItemColorLayerNames.get(asset.Group.Name + asset.Name + layer.Name);
 			}
 			buttonText = ItemColorGetColorButtonText(currentColors);
 			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
@@ -374,13 +387,14 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 }
 
 function ItemColorGetColorButtonText(color) {
-	if (typeof color === "string") {
-		return color;
-	} else if (Array.isArray(color)) {
+	let text = color;
+	if (Array.isArray(color)) {
 		const initialColor = color[0];
-		return color.some(c => c !== initialColor) ? "Many" : initialColor;
+		text = color.some(c => c !== initialColor) ? "Many" : initialColor;
+	} else if (typeof color !== "string") {
+		text = "Default";
 	}
-	return "Default";
+	return ItemColorText.get(text);
 }
 
 function ItemColorOnExit(callback) {
@@ -389,4 +403,6 @@ function ItemColorOnExit(callback) {
 
 function ItemColorFireExit(save) {
 	ItemColorExitListeners.forEach(listener => listener(ItemColorCharacter, ItemColorItem, save));
+	ItemColorLayerNames = null;
+	ItemColorGroupNames = null;
 }
