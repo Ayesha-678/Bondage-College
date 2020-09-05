@@ -26,7 +26,7 @@ let ItemColorPickerIndices = [];
 let ItemColorExitListeners = [];
 let ItemColorBackup;
 
-function ItemColorLoad(c, item) {
+function ItemColorLoad(c, item, x, y, width, height) {
 	ItemColorCharacter = c;
 	ItemColorItem = item;
 	ItemColorCurrentMode = ItemColorMode.DEFAULT;
@@ -38,6 +38,10 @@ function ItemColorLoad(c, item) {
 	ItemColorPickerIndices = [];
 	ItemColorExitListeners = [];
 	ItemColorBackup = AppearanceItemStringify(item);
+	ItemColorStateBuild(c, item, x, y, width, height);
+	if (ItemColorState.simpleMode) {
+		ItemColorOpenPicker(ItemColorState.layerGroups[0]);
+	}
 }
 
 function ItemColorDraw(c, group, x, y, width, height) {
@@ -48,6 +52,9 @@ function ItemColorDraw(c, group, x, y, width, height) {
 	ItemColorStateBuild(c, item, x, y, width, height);
 
 	const headerButtonSize = ItemColorConfig.headerButtonSize;
+	if (ItemColorCurrentMode === ItemColorMode.DEFAULT && ItemColorState.pageCount > 1) {
+		DrawButton(ItemColorState.paginationButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Next.png", "Next page");
+	}
 	DrawButton(ItemColorState.cancelButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Cancel.png", TextGet("Cancel"));
 	DrawButton(ItemColorState.saveButtonX, y, headerButtonSize, headerButtonSize, "", "#fff", "Icons/Accept.png", TextGet("Accept"));
 
@@ -83,31 +90,38 @@ function ItemColorDrawDefault(x, y) {
 
 	layerGroups.forEach((layerGroup, i) => {
 		const groupY = y + (i * (buttonHeight + buttonSpacing));
-		if (layerGroup.layers.length === 1) {
-			const layer = layerGroup.layers[0];
-			const layerColor = colors[layer.ColorIndex];
-			const buttonColor = layerColor.startsWith("#") ? layerColor : "#fff";
-			DrawButton(x, groupY, groupButtonWidth, buttonHeight, layer.Name || ItemColorItem.Asset.Description, "#fff");
-			DrawButton(colorDisplayButtonX, groupY, colorDisplayWidth, buttonHeight, layerColor, buttonColor);
-			DrawButton(colorPickerButtonX, groupY, colorPickerButtonWidth, buttonHeight, "", "#fff", "Icons/Color.png");
+		let groupName, buttonText, buttonColor;
+		let isBackNextButton = false;
+		if (layerGroup.name === null) {
+			groupName = "Whole Item";
+			buttonText = ItemColorGetColorButtonText(colors);
+			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
+		} else if (layerGroup.layers.length === 1) {
+			groupName = layerGroup.name;
+			buttonText = colors[layerGroup.layers[0].ColorIndex];
+			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
 		} else {
 			let currentColors;
-			let layerText;
 			const layerPage = ItemColorLayerPages[layerGroup.name];
 			if (layerPage === 0) {
 				currentColors = layerGroup.layers.map(layer => colors[layer.ColorIndex]);
-				layerText = layerGroup.name + ": All";
+				groupName = layerGroup.name + ": All";
 			} else {
 				const layer = layerGroup.layers[layerPage - 1];
 				currentColors = colors[layer.ColorIndex];
-				layerText = layerGroup.name + ": " + layer.Name;
+				groupName = layerGroup.name + ": " + layer.Name;
 			}
-			let buttonColorText = ItemColorGetColorButtonText(currentColors);
-			const buttonColor = buttonColorText.startsWith("#") ? buttonColorText : "#fff";
-			DrawBackNextButton(x, groupY, groupButtonWidth, buttonHeight, layerText, "#fff", null, () => "Previous", () => "Next");
-			DrawButton(colorDisplayButtonX, groupY, colorDisplayWidth, buttonHeight, buttonColorText, buttonColor);
-			DrawButton(colorPickerButtonX, groupY, colorPickerButtonWidth, buttonHeight, "", "#fff", "Icons/Color.png");
+			buttonText = ItemColorGetColorButtonText(currentColors);
+			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
+			isBackNextButton = true;
 		}
+		if (isBackNextButton) {
+			DrawBackNextButton(x, groupY, groupButtonWidth, buttonHeight, groupName, "#fff", null, () => "Previous", () => "Next");
+		} else {
+			DrawButton(x, groupY, groupButtonWidth, buttonHeight, groupName, "#fff");
+		}
+		DrawButton(colorDisplayButtonX, groupY, colorDisplayWidth, buttonHeight, buttonText, buttonColor);
+		DrawButton(colorPickerButtonX, groupY, colorPickerButtonWidth, buttonHeight, "", "#fff", "Icons/Color.png");
 	});
 }
 
@@ -133,6 +147,14 @@ function ItemColorClick(c, group, x, y, width, height) {
 
 	if (MouseIn(ItemColorState.saveButtonX, y, headerButtonSize, headerButtonSize)) {
 		return ItemColorSaveClick();
+	}
+
+	if (
+		ItemColorCurrentMode === ItemColorMode.DEFAULT &&
+		ItemColorState.pageCount > 1 &&
+		MouseIn(ItemColorState.paginationButtonX, y, headerButtonSize, headerButtonSize)
+	) {
+		return ItemColorPaginationClick();
 	}
 
 	if (ItemColorCurrentMode === ItemColorMode.DEFAULT) {
@@ -178,6 +200,10 @@ function ItemColorClickDefault(x, y, width) {
 	});
 }
 
+function ItemColorPaginationClick() {
+	ItemColorPage = (ItemColorPage + 1) % ItemColorState.pageCount;
+}
+
 function ItemColorExit() {
 	switch (ItemColorCurrentMode) {
 		case ItemColorMode.COLOR_PICKER:
@@ -186,35 +212,41 @@ function ItemColorExit() {
 		default:
 			Object.assign(ItemColorItem, AppearanceItemParse(ItemColorBackup));
 			CharacterLoadCanvas(ItemColorCharacter);
-			ItemColorExitListeners.forEach(listener => listener());
+			ItemColorFireExit(false);
 	}
 }
 
 function ItemColorSaveClick() {
 	switch (ItemColorCurrentMode) {
 		case ItemColorMode.COLOR_PICKER:
-			return ItemColorCloseColorPicker();
+			return ItemColorCloseColorPicker(true);
 		case ItemColorMode.DEFAULT:
 		default:
-			return ItemColorExitListeners.forEach(listener => listener());
+			ItemColorFireExit(true);
 	}
 }
 
 function ItemColorPickerCancel() {
 	Object.assign(ItemColorItem, AppearanceItemParse(ItemColorPickerBackup));
 	CharacterLoadCanvas(ItemColorCharacter);
-	ItemColorCloseColorPicker();
+	ItemColorCloseColorPicker(false);
 }
 
-function ItemColorCloseColorPicker() {
+function ItemColorCloseColorPicker(save) {
 	ElementRemove("InputColor");
 	ColorPickerHide();
-	ItemColorCurrentMode = ItemColorMode.DEFAULT;
+	if (ItemColorState.simpleMode) {
+		ItemColorFireExit(save);
+	} else {
+		ItemColorCurrentMode = ItemColorMode.DEFAULT;
+	}
 }
 
 function ItemColorGetColorIndices(layerGroup) {
-	if (layerGroup.layers.length === 1) {
-		return [layerGroup[0].ColorIndex];
+	if (layerGroup.name === null) {
+		return ItemColorState.colors.map((c, i) => i);
+	} else if (layerGroup.layers.length === 1) {
+		return [layerGroup.layers[0].ColorIndex];
 	} else {
 		const layerPage = ItemColorLayerPages[layerGroup.name];
 		if (layerPage === 0) {
@@ -268,13 +300,12 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 	}
 
 	ItemColorStateKey = itemKey;
-	const groupMap = item.Asset.Layer
-		.filter(layer => !layer.CopyLayerColor && layer.AllowColorize)
-		.reduce((groupLookup, layer) => {
-			const groupKey = layer.ColorGroup || layer.Name;
-			(groupLookup[groupKey] || (groupLookup[groupKey] = [])).push(layer);
-			return groupLookup;
-		}, {});
+	const colorableLayers = item.Asset.Layer.filter(layer => !layer.CopyLayerColor && layer.AllowColorize);
+	const groupMap = colorableLayers.reduce((groupLookup, layer) => {
+		const groupKey = layer.ColorGroup || layer.Name;
+		(groupLookup[groupKey] || (groupLookup[groupKey] = [])).push(layer);
+		return groupLookup;
+	}, {});
 
 	const layerGroups = Object.keys(groupMap)
 		.map(key => {
@@ -286,10 +317,14 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 			};
 		})
 		.sort((g1, g2) => g1.colorIndex = g2.colorIndex);
+	layerGroups.unshift({ name: null, layers: [], colorIndex: -1 });
 
 	let colors;
 	if (Array.isArray(item.Color)) {
 		colors = item.Color;
+		for (let i = colors.length; i < item.Asset.ColorableLayerCount; i++) {
+			colors.push("Default");
+		}
 	} else {
 		const colorStr = typeof item.Color === "string" ? item.Color : "Default";
 		colors = [];
@@ -298,12 +333,15 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 		}
 	}
 
+	const simpleMode = colorableLayers.length === 1;
+
 	const colorPickerButtonWidth = ItemColorConfig.colorPickerButtonWidth;
 	const buttonSpacing = ItemColorConfig.buttonSpacing;
 	const colorDisplayWidth = ItemColorConfig.colorDisplayWidth;
 	const buttonHeight = ItemColorConfig.buttonSize;
 	const headerButtonSize = ItemColorConfig.headerButtonSize;
 
+	const paginationButtonX = x + width - 3 * headerButtonSize - 2 * buttonSpacing;
 	const cancelButtonX = x + width - 2 * headerButtonSize - buttonSpacing;
 	const saveButtonX = x + width - headerButtonSize;
 	const colorPickerButtonX = x + width - colorPickerButtonWidth;
@@ -311,6 +349,7 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 	const contentY = y + ItemColorConfig.headerButtonSize + buttonSpacing;
 	const groupButtonWidth = colorDisplayButtonX - buttonSpacing - x;
 	const pageSize = Math.floor((height - headerButtonSize - buttonSpacing) / (buttonHeight + buttonSpacing));
+	const pageCount = Math.ceil(layerGroups.length / pageSize);
 	const colorInputWidth = Math.min(300, width - 3 * (headerButtonSize + buttonSpacing));
 	const colorInputX = x + 0.5 * colorInputWidth;
 	const colorInputY = y + 0.5 * headerButtonSize;
@@ -318,6 +357,8 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 	ItemColorState = {
 		layerGroups,
 		colors,
+		simpleMode,
+		paginationButtonX,
 		cancelButtonX,
 		saveButtonX,
 		colorPickerButtonX,
@@ -325,6 +366,7 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 		contentY,
 		groupButtonWidth,
 		pageSize,
+		pageCount,
 		colorInputWidth,
 		colorInputX,
 		colorInputY,
@@ -343,4 +385,8 @@ function ItemColorGetColorButtonText(color) {
 
 function ItemColorOnExit(callback) {
 	ItemColorExitListeners.push(callback);
+}
+
+function ItemColorFireExit(save) {
+	ItemColorExitListeners.forEach(listener => listener(ItemColorCharacter, ItemColorItem, save));
 }
