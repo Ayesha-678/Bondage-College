@@ -283,9 +283,9 @@ function ItemColorOpenPicker(layerGroup) {
 function ItemColorNextColor(layerGroup) {
 	const colorIndicesToSet = ItemColorGetColorIndices(layerGroup);
 	const groupColors = ItemColorState.colors.filter((c, i) => colorIndicesToSet.includes(i));
-	const colorText = ItemColorGetColorButtonText(groupColors);
+	const colorTextKey = ItemColorGetColorButtonTextKey(groupColors);
 	const schema = ItemColorItem.Asset.Group.ColorSchema;
-	const nextIndex = (schema.indexOf(colorText) + 1) % schema.length;
+	const nextIndex = (schema.indexOf(colorTextKey) + 1) % schema.length;
 	const nextColor = schema[nextIndex];
 	const newColors = ItemColorState.colors.slice();
 	colorIndicesToSet.forEach(i => newColors[i] = nextColor);
@@ -386,7 +386,7 @@ function ItemColorStateBuild(c, item, x, y, width, height) {
 	};
 }
 
-function ItemColorGetColorButtonText(color) {
+function ItemColorGetColorButtonTextKey(color) {
 	let text = color;
 	if (Array.isArray(color)) {
 		const initialColor = color[0];
@@ -394,7 +394,11 @@ function ItemColorGetColorButtonText(color) {
 	} else if (typeof color !== "string") {
 		text = "Default";
 	}
-	return ItemColorText.get(text);
+	return text;
+}
+
+function ItemColorGetColorButtonText(color) {
+	return ItemColorText.get(ItemColorGetColorButtonTextKey(color)).trim();
 }
 
 function ItemColorOnExit(callback) {
