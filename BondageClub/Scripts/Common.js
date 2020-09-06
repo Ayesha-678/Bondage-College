@@ -351,10 +351,26 @@ function CommonColorsEqual(C1, C2) {
 	return C1 === C2;
 }
 
+/**
+ * Checks whether two arrays are equal. The arrays are considered equal if they have the same length and contain the same items in the same
+ * order, as determined by === comparison
+ * @param {*[]} a1 - The first array to compare
+ * @param {*[]} a2 - The second array to compare
+ * @returns {boolean} - TRUE if both arrays have the same length and contain the same items in the same order, FALSE otherwise
+ */
 function CommonArraysEqual(a1, a2) {
 	return a1.length === a2.length && a1.every((item, i) => item === a2[i]);
 }
 
+/**
+ * Creates a debounced wrapper for the provided function with the provided wait time. The wrapped function will not be called as long as
+ * the debounced function continues to be called. If the debounced function is called, and then not called again within the wait time, the
+ * wrapped function will be called.
+ * @param {function} func - The function to debounce
+ * @param {number} wait - The wait time in milliseconds that needs to pass after calling the debounced function before the wrapped function
+ * is invoked
+ * @returns {function} - A debounced version of the provided function
+ */
 function CommonDebounce(func, wait) {
 	let timeout, args, context, timestamp, result;
 	wait = typeof wait === "number" ? wait : 100;
