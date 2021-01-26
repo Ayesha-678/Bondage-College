@@ -415,7 +415,7 @@ var AssetFemale3DCG = [
 					{ Name: "Metal", AllowColorize: false}
 					]
 			},
-			{ Name: "Ribbon", Hide: ["ItemNipples", "ItemNipplesPiercings"], DefaultColor: "#B41E1E", Extended: true, AllowType: ["TightSingleStrip", "Bra", "StraplessBra", "Swimsuit1"] },
+			{ Name: "Ribbon", Hide: ["ItemNipples", "ItemNipplesPiercings"], DefaultColor: "#B41E1E", Extended: true, AllowType: ["TightSingleStrip", "Bra", "StraplessBra", "Swimsuit1", "Swimsuit2"] },
 
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]

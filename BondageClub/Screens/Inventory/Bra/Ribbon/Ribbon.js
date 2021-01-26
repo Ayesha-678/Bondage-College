@@ -24,6 +24,11 @@ var InventoryBraRibbonOptions = [
 		Property: { Type: "Swimsuit1" },
 
 	},
+		{
+		Name: "Swimsuit2",
+		Property: { Type: "Swimsuit2" },
+
+	},
 ];
 
 // Loads the item extension properties
@@ -33,7 +38,7 @@ function InventoryBraRibbonLoad() {
 
 // Draw the item extension screen
 function InventoryBraRibbonDraw() {
-	ExtendedItemDraw(InventoryBraRibbonOptions, "ClothPriorityType", null, true, true);
+	ExtendedItemDraw(InventoryBraRibbonOptions, "RibbonWrap", null, true, true);
 }
 
 // Catches the item extension clicks
