@@ -2,31 +2,37 @@
 var InventoryBraRibbonOptions = [
 	{
 		Name: "SingleStrip",
-		Property: { Type: null },
+		Property: { Type: null, Hide: ["ItemNipples", "ItemNipplesPiercings"] },
 	},
 	{
 		Name: "TightSingleStrip",
-		Property: { Type: "TightSingleStrip" },
+		Property: { Type: "TightSingleStrip", Hide: ["ItemNipples", "ItemNipplesPiercings"] },
 
 	},
 	{
 		Name: "Bra",
-		Property: { Type: "Bra" },
+		Property: { Type: "Bra", Hide: ["ItemNipples", "ItemNipplesPiercings"] },
 
 	},
 	{
 		Name: "StraplessBra",
-		Property: { Type: "StraplessBra" },
+		Property: { Type: "StraplessBra", Hide: ["ItemNipples", "ItemNipplesPiercings"] },
 
 	},
 	{
 		Name: "Swimsuit1",
-		Property: { Type: "Swimsuit1" },
+		Property: { Type: "Swimsuit1", Hide: ["ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPeircings", "ItemButt"] },
 
 	},
-		{
+	{
 		Name: "Swimsuit2",
-		Property: { Type: "Swimsuit2" },
+		Property: { Type: "Swimsuit2", Hide: ["ItemNipples", "ItemNipplesPiercings", "ItemVulva", "ItemVulvaPeircings", "ItemButt"] },
+
+	},
+	{
+		Name: "FrameBra",
+		Property: { Type: "FrameBra", Expose: ["ItemNipples", "ItemNipplesPiercings", "ItemBreast"] },
+		
 
 	},
 ];

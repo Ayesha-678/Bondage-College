@@ -271,7 +271,7 @@ function InventoryDoesItemBlockGroup(C, ItemGroup, TargetGroup) {
  */
 function InventoryDoesItemExposeGroup(C, ItemGroup, TargetGroup) {
 	const Item = InventoryGet(C, ItemGroup);
-	return !Item || Item.Asset.Expose.includes(TargetGroup);
+	return !Item || Item.Asset.Expose.includes(TargetGroup) || (Item.Property && Item.Property.Expose && Item.Property.Expose.indexOf(TargetGroup))
 }
 
 /**
