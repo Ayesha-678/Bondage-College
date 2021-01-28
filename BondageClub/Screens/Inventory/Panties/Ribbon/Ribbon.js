@@ -9,12 +9,13 @@ var InventoryPantiesRibbonOptions = [
 		Property: { Type: "Panties", },
     },
     {
-		Name: "Panties2",
-		Property: { Type: "Panties2", },
+		Name: "Bikini",
+		Property: { Type: "Bikini", },
     },
     {
-		Name: "Panties3",
-        Property: { Type: "Panties", },
+		Name: "OpenCrotch",
+		Property: { Type: "OpenCrotch", Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"] },
+		Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"]
 	},
 
 ];
@@ -26,7 +27,7 @@ function InventoryPantiesRibbonLoad() {
 
 // Draw the item extension screen
 function InventoryPantiesRibbonDraw() {
-	ExtendedItemDraw(InventoryPantiesRibbonOptions, "RibbonWrap", null, true, true);
+	ExtendedItemDraw(InventoryPantiesRibbonOptions, "RibbonPantiesWrap", null, true, true);
 }
 
 // Catches the item extension clicks

@@ -15,6 +15,11 @@ var InventoryBraRibbonOptions = [
 
 	},
 	{
+		Name: "Bikini",
+		Property: { Type: "Bikini", Hide: ["ItemNipples", "ItemNipplesPiercings"] },
+
+	},
+	{
 		Name: "StraplessBra",
 		Property: { Type: "StraplessBra", Hide: ["ItemNipples", "ItemNipplesPiercings"] },
 
@@ -44,7 +49,7 @@ function InventoryBraRibbonLoad() {
 
 // Draw the item extension screen
 function InventoryBraRibbonDraw() {
-	ExtendedItemDraw(InventoryBraRibbonOptions, "RibbonWrap", null, true, true);
+	ExtendedItemDraw(InventoryBraRibbonOptions, "RibbonBraWrap", null, true, true);
 }
 
 // Catches the item extension clicks
