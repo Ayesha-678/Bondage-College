@@ -15,7 +15,7 @@ var InventoryPantiesRibbonOptions = [
     {
 		Name: "OpenCrotch",
 		Property: { Type: "OpenCrotch", Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"] },
-		Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"]
+		
 	},
 
 ];
