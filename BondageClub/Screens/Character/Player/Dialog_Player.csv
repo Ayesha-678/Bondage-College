@@ -1739,5 +1739,15 @@ RibbonBraWrapFrameBra,,,Bra (Frame),,
 RibbonPantiesWrapThong,,,Thong,,
 RibbonPantiesWrapPanties,,,Panties,,
 RibbonPantiesWrapBikini,,,Bikini,,
+RibbonPantiesWrapOpenCrotch,,,Panties (Open),,
+RibbonPantiesWrapCrotchFrame,,,Crotch Frame,,
+RibbonSockWrapAnkle,,,Ankle,,
+RibbonSockWrapShort,,,Short,,
+RibbonSockWrapMedium,,,Medium,,
+RibbonSockWrapHigh,,,High,,
+RibbonSockWrapFull,,,Full,,
+RibbonSockWrapFootless,,,Footless
+
+
 
 

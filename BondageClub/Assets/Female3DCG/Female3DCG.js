@@ -509,7 +509,7 @@ var AssetFemale3DCG = [
 					{ Name: "Layer3", AllowColorize: true },
 					]
 			},
-			{ Name: "Ribbon", Value: 25, BuyGroup: "Ribbon", DefaultColor: "#B41E1E", Extended: true, AllowType: ["Panties", "Bikini", "OpenCrotch"] },
+			{ Name: "Ribbon", Value: 25, BuyGroup: "Ribbon", DefaultColor: "#B41E1E", Extended: true, AllowType: ["Panties", "Bikini", "OpenCrotch", "CrotchFrame"] },
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -557,6 +557,8 @@ var AssetFemale3DCG = [
 			{ Name: "LeatherSocks1", Fetish: ["Leather"], Value: 20 },
 			{ Name: "Pantyhose2", Fetish: ["Nylon"], Value: 10 },
 			{ Name: "CowPrintedSocks", Fetish: ["Nylon"], Value: 15 },
+			{ Name: "Ribbon", Value: 25, BuyGroup: "Ribbon", DefaultColor: "#B41E1E", Extended: true, AllowType: ["Short", "Medium", "High", "Full", "FootLess"] },
+
 		],
 		Color: ["Default", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444", "#222222", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
