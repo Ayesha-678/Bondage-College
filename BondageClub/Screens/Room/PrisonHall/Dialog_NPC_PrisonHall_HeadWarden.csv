@@ -4,6 +4,7 @@ PlayerGagged,,,"Nice gag. But I can't understand you with it on.",,
 0,,"So...What's going on here?", Well...this is the prison hall! People come here to live out their prison fantasies. You can be a inmate or a warden.,DialogRemove()
 0,,"What's your role here?", I'm the head warden. only the best wardens are granted said role.,DialogRemove()
 0,20,"I want to enter the Prison Hall.", Of course. Would you like to be a Warden or Inmate? Or just a tourist?
+0,,"I want to exit the Prison Hall.", Of course. I'll open the door.,AccessRemove()
 0,10,"Can you tell me more?", Of course! What would you like to know?
 10,,"Can I become a Warden?", Of course you can! Just ask and you'll start right away.
 10,,"Can I become a Inmate?", Of course! just ask and we'll get you set up.
@@ -12,4 +13,7 @@ PlayerGagged,,,"Nice gag. But I can't understand you with it on.",,
 10,,"Can I become a Head Warden?", Only if you have a high reputation with the Wardens.
 10,,"Can I just tour the area?", Sure. but you'll be restricted from some areas.
 10,0, "Thanks, that's all!", No problem. let me know if you need anything else.
+20,0,"I want to be a Warden.", Sure. Lets get you ready.,WardenAccessGet(),!InmateOrTourist()
+20,0,"I want to be an Inmate.", Sure. Lets get you ready.,InmateAccessGet(),!WardenOrTourist()
+20,0,"I want to be a Tourist.", Sure. Lets get you ready.,TouristAccessGet(),!InmateOrWarden()
 20,0,"Nevermind.", Okay.

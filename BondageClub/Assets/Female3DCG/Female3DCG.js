@@ -2278,7 +2278,8 @@ var AssetFemale3DCG = [
 			{ Name: "HighSecurityHandCuffs", Fetish: ["Metal"], SelfBondage: 0, AllowLock: true, Priority: 29, Value: 40, Difficulty: 5, Time: 5, Audio: "LockSmall", SetPose: ["BackCuffs"], Effect: ["Block", "Prone",], Layer: [
 				{ Name: "Cuffs" },
 				{ Name: "Highlights", AllowColorize: false}
-			]},
+			] },
+			{ Name: "MetalPrisonCuffs", Value: 1},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
