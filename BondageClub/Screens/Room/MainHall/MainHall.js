@@ -246,6 +246,9 @@ function MainHallRun() {
 		// Cafe
 		DrawButton(25, 265, 90, 90, "", "White", "Icons/Refreshsments.png", TextGet("Cafe"));
 
+		// Prison Hall
+		DrawButton(265, 265, 90, 90, "", "White", "Icons/PrisonHall.png", TextGet("PrisonHall"))
+
 	} else {
 
 		// Special permission to enter the maid quarters if doing the maid serving drinks quest while being restrained
@@ -380,6 +383,9 @@ function MainHallClick() {
 
 		// Cafe
 		if ((MouseX >=   25) && (MouseX <  115) && (MouseY >= 265) && (MouseY < 355)) MainHallWalk("Cafe");
+
+		// Prison Hall
+		if ((MouseX >=  265) && (MouseX <  355) && (MouseY >= 265) && (MouseY < 355)) MainHallWalk("PrisonHall");
 
 	} else {
 

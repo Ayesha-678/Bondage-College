@@ -41,6 +41,8 @@ TitleDoll,Doll
 TitleDemon,Demon
 TitleAngel,Angel
 TitleSuccubus,Succubus
+TitleWarden,Warden
+TitleInmate,Inmate
 MemberNumber,Member Number:
 NoMemberNumber,-
 Relationships,- Relationships -
@@ -70,6 +72,8 @@ ReputationAsylumNegative,Asylum Patient:
 ReputationLARPPositive,LARP Battles:
 ReputationGamblingPositive,Gambling Hall:
 ReputationABDLPositive,ABDL:
+ReputationPrisonWardenPositive,Prison Warden:
+ReputationPrisonInmate,Prison Inmate:
 DifficultyTitle,difficulty for NumberOfDays day(s)
 DifficultyLevel0,Roleplay
 DifficultyLevel1,Regular

@@ -1,0 +1,15 @@
+PlayerGagged,,,"Nice gag. But I can't understand you with it on.",,
+0,,,Welcome to the Prison Hall.,,
+0,,"Hello, I'm DialogPlayerName. Nice to meet you!", I'm DialogCharacterName. Nice to meet you too. is there anything you'd like to know about the prison hall?,DialogRemove(),
+0,,"So...What's going on here?", Well...this is the prison hall! People come here to live out their prison fantasies. You can be a inmate or a warden.,DialogRemove()
+0,,"What's your role here?", I'm the head warden. only the best wardens are granted said role.,DialogRemove()
+0,20,"I want to enter the Prison Hall.", Of course. Would you like to be a Warden or Inmate? Or just a tourist?
+0,10,"Can you tell me more?", Of course! What would you like to know?
+10,,"Can I become a Warden?", Of course you can! Just ask and you'll start right away.
+10,,"Can I become a Inmate?", Of course! just ask and we'll get you set up.
+10,,"What can I do as a Warden?", You'll be tasked with setting up inmates. Patrolling the hall. But you can also explore the hall at your own free will. Just don't misbehave or you'll be punished.
+10,,"What can I do as an Inmate?", You can hang out in your cell. with a cellmate. You can also explore the hall. Just don't misbehave or you'll be punished by the wardens.
+10,,"Can I become a Head Warden?", Only if you have a high reputation with the Wardens.
+10,,"Can I just tour the area?", Sure. but you'll be restricted from some areas.
+10,0, "Thanks, that's all!", No problem. let me know if you need anything else.
+20,0,"Nevermind.", Okay.

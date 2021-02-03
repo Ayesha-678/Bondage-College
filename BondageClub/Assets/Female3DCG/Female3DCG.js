@@ -141,6 +141,7 @@ var AssetFemale3DCG = [
 			{ Name: "BondageBustier1", BuyGroup: "BondageDress1", Value: -1, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsWeightedPiercing", "ItemNipplesLactationPump"] },
 			{ Name: "BondageBustier2", BuyGroup: "BondageDress2", Value: -1, HideItem: ["ItemNipplesPiercingsRoundPiercing", "ItemNipplesPiercingsWeightedPiercing", "ItemNipplesLactationPump"] },
 			{ Name: "LeatherBolero", Fetish:["Leather"], Value: 60, Alpha: [{ Group: ["ItemNeck"], Masks: [[185, 215, 130, 65]] }], Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemNipples", "ItemNipplesPiercings", "ItemBreast", "ItemTorso"], HideItem: ["ItemNeckLeatherCollar", "ItemNeckLeatherCollarBell", "ItemNeckLeatherCollarBow", "ItemNeckSlaveCollar", "ItemNeckClubSlaveCollar", "ItemNeckShockCollar", "ItemNeckShockCollarRemote", "ItemNeckBatCollar", "ItemNeckPostureCollar", "ItemNeckSteelPostureCollar", "ItemNeckDogCollar", "ItemNeckSpikeCollar", "ItemNeckHighCollar", "ItemNeckLeatherChoker", "ItemNeckPetCollar", "ItemNeckMaidCollar", "ItemNeckBordelleCollar", "ItemNeckLoveLeatherCollar", "ItemNeckNobleCorsetCollar", "ItemNeckHeartCollar", "ItemNeckHighSecurityCollar", "ItemNeckOrnateCollar", "ItemNeckSlenderSteelCollar", "ItemNeckHeartLinkChoker", "ItemNeckNeckRope"] },
+			{ Name: "WardenOutfit", Value: 1, DefaultColor: "#5F7690" }
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -154,7 +155,7 @@ var AssetFemale3DCG = [
 			{ Name: "StudentOutfit3Scarf", Priority: 34, Left: 200, Top: 250 },
 			{ Name: "StudentOutfit3Bow1", Priority: 34, Left: 200, Top: 250 },
 			{ Name: "StudentOutfit3Bow2", Priority: 34, Left: 200, Top: 250 },
-			{ Name: "StudentOutfit3Bow3", Priority: 34, Left: 200, Top: 250 },
+			{ Name: "StudentOutfit3Bow3", Priority: 34, Left: 200, Top: 250 },			
 			{
 				Name: "Bouquet", Priority: 41, Value: 40, Left: 175, Top: 350, BuyGroup: "Bouquet", AllowPose: ["BackBoxTie", "BackCuffs", "BackElbowTouch", "Yoked", "Hogtied", "OverTheHead"],
 				Layer: [
@@ -171,7 +172,8 @@ var AssetFemale3DCG = [
 					{ Name: "Back",  Priority: 6 },
 					{ Name: "Front",  Priority: 41 }
 				]
-			},			
+			},
+			{ Name: "WardenTie", Value: 1, DefaultColor: "#202020", Priority: 34, Left: 173, Top: 240 }			
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]
 	},
@@ -2273,6 +2275,10 @@ var AssetFemale3DCG = [
 					{ Name: "Straps"}
 				],
 			},
+			{ Name: "HighSecurityHandCuffs", Fetish: ["Metal"], SelfBondage: 0, AllowLock: true, Priority: 29, Value: 40, Difficulty: 5, Time: 5, Audio: "LockSmall", SetPose: ["BackCuffs"], Effect: ["Block", "Prone",], Layer: [
+				{ Name: "Cuffs" },
+				{ Name: "Highlights", AllowColorize: false}
+			]},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
