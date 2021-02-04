@@ -24,7 +24,6 @@
 <script src="Scripts/Animation.js"></script>
 <script src="Scripts/Mouse.js"></script>
 <script src="Scripts/Drawing.js"></script>
-<script src="Scripts/Drawing3D.js"></script>
 <script src="Scripts/Timer.js"></script>
 <script src="Scripts/AfkTimer.js"></script>
 <script src="Scripts/GameLog.js"></script>
@@ -52,9 +51,7 @@
 <script src="Scripts/LZString.js"></script>
 <script src="Scripts/VibratorMode.js"></script>
 <script src="Scripts/socket.io/socket.io.js"></script>
-<script src="Scripts/three/three.min.js"></script>
-<script src="Scripts/three/inflate.min.js"></script>
-<script src="Scripts/three/FBXLoader.js"></script>
+<script src="Scripts/DynamicDraw.js"></script>
 <script src="Assets/Female3DCG/Female3DCG.js"></script>
 <script src="Screens/Character/Login/Login.js"></script>
 <script src="Screens/Character/Appearance/Appearance.js"></script>
@@ -184,10 +181,13 @@
 <script src="Screens/Inventory/ItemMouth/PlugGag/PlugGag.js"></script>
 <script src="Screens/Inventory/ItemMouth/FuturisticPanelGag/FuturisticPanelGag.js"></script>
 <script src="Screens/Inventory/ItemMouth/FuturisticHarnessPanelGag/FuturisticHarnessPanelGag.js"></script>
+<script src="Screens/Inventory/ItemMouth/FuturisticHarnessBallGag/FuturisticHarnessBallGag.js"></script>
 <script src="Screens/Inventory/ItemArms/FuturisticCuffs/FuturisticCuffs.js"></script>
 <script src="Screens/Inventory/ItemLegs/FuturisticLegCuffs/FuturisticLegCuffs.js"></script>
 <script src="Screens/Inventory/ItemFeet/FuturisticAnkleCuffs/FuturisticAnkleCuffs.js"></script>
 <script src="Screens/Inventory/ItemNeck/FuturisticCollar/FuturisticCollar.js"></script>
+<script src="Screens/Inventory/ItemTorso/FuturisticHarness/FuturisticHarness.js"></script>
+<script src="Screens/Inventory/ItemTorso/FuturisticHarness2/FuturisticHarness2.js"></script>
 <script src="Screens/Inventory/ItemMouth/DildoPlugGag/DildoPlugGag.js"></script>
 <script src="Screens/Inventory/ItemHands/SpankingToys/SpankingToy.js"></script>
 <script src="Screens/Inventory/ItemTorso/HempRopeHarness/HempRopeHarness.js"></script>
@@ -253,6 +253,7 @@
 <script src="Screens/Inventory/ItemFeet/OrnateAnkleCuffs/OrnateAnkleCuffs.js"></script>
 <script src="Screens/Inventory/ItemArms/FullLatexSuit/FullLatexSuit.js"></script>
 <script src="Screens/Inventory/ItemVulva/FullLatexSuitWand/FullLatexSuitWand.js"></script>
+<script src="Screens/Inventory/ItemVulva/FuturisticVibrator/FuturisticVibrator.js"></script>
 <script src="Screens/Inventory/ItemArms/LeatherArmbinder/LeatherArmbinder.js"></script>
 <script src="Screens/Inventory/ItemArms/BitchSuit/BitchSuit.js"></script>
 <script src="Screens/Inventory/ItemArms/TightJacketCrotch/TightJacketCrotch.js"></script>
@@ -310,6 +311,7 @@
 <script src="Screens/Inventory/ItemTorso/HeavyLatexCorset/HeavyLatexCorset.js"></script>
 <script src="Screens/Inventory/ItemMouth/FunnelGag/FunnelGag.js"></script>
 <script src="Screens/Inventory/ItemEars/Headphones/Headphones.js"></script>
+<script src="Screens/Inventory/ItemEars/FuturisticEarphones/FuturisticEarphones.js"></script>
 <script src="Screens/Inventory/ItemHood/CanvasHood/CanvasHood.js"></script>
 <script src="Screens/Inventory/ItemDevices/Vacbed/Vacbed.js"></script>
 <script src="Screens/Inventory/ItemDevices/WoodenBox/WoodenBox.js"></script>
@@ -407,7 +409,7 @@ function Click(event) {
 }
 
 // When the user touches the screen (mobile only), we fire the click event for other screens
-function Touch(event) {
+function TouchStart(event) {
 	if (CommonIsMobile) {
 		var rect = document.getElementById("MainCanvas").getBoundingClientRect();
 		if (document.body.clientWidth <= document.body.clientHeight * 2) {
@@ -416,9 +418,9 @@ function Touch(event) {
 		} else {
 			MouseX = Math.round((event.touches[0].clientX - rect.left) * 1000 / document.body.clientHeight);
 			MouseY = Math.round((event.touches[0].clientY - rect.top) * 1000 / document.body.clientHeight);
-		}		
+		}
 		CommonClick();
-	} 
+	}
 }
 
 // When mouse move, we keep the mouse position for other scripts
@@ -440,7 +442,7 @@ function LoseFocus(event) {
 		MouseY = -1;
 	}
 }
- 
+
 </script>
 
 
@@ -487,6 +489,6 @@ function LoseFocus(event) {
 </script>
 
 <body style="width:100%; height:100%; background-color:black; margin:0px; padding:0px; overflow:hidden;">
-	<canvas id="MainCanvas" Width="2000" Height="1000" onClick="Click(event);" onTouchStart="Touch(event);" onMouseMove="MouseMove(event);" onMouseLeave="LoseFocus(event);"></canvas>
+	<canvas id="MainCanvas" Width="2000" Height="1000" onClick="Click(event);" onTouchStart="TouchStart(event);" onMouseMove="MouseMove(event);" onMouseLeave="LoseFocus(event);"></canvas>
 </body>
 </html>

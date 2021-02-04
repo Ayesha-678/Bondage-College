@@ -724,15 +724,6 @@ function MainHallMaidIntroductionDone() {
 	LogAdd("IntroductionDone", "MainHall");
 }
 
-/**
- * Handles key presses while in the main hall screen
- * @returns {void} - Nothing
- */
-function MainHallKeyDown() {
-	Draw3DKeyDown();
-}
-
-
 function MainHallSetMaidsDisabled(minutes) {
 	var millis = minutes * 60000
 	LogAdd("MaidsDisabled", "Maid", CurrentTime + millis);
