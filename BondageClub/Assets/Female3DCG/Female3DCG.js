@@ -2279,7 +2279,7 @@ var AssetFemale3DCG = [
 				{ Name: "Cuffs" },
 				{ Name: "Highlights", AllowColorize: false}
 			] },
-			{ Name: "MetalPrisonCuffs", Value: 1},
+			{ Name: "MetalPrisonCuffs", Value: 1, Priority: 29, Left: 0, Top: 0, AllowPose: ["BackBoxTie", "BackElbowTouch", "OverTheHead", "BackCuffs", "Yoked"], Effect: ["CuffedArms"], AllowEffect: ["Block", "Prone", "NotSelfPickable"], AllowType: ["Wrist", "Elbow", "Both"], Extended: true, RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],

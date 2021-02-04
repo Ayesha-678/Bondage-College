@@ -12,7 +12,7 @@ function PrisonHallRun() {
     DrawCharacter(PrisonHallHeadWarden, 750, 0, 1);
     DrawCharacter(PrisonHallDisplayPrisoner, 1350, 0, 1);
     if (Player.CanWalk() && PrisonHallCanLeave == true )  DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Leave"));
-    if (Player.CanWalk() && PrisonHallWardenAccess == true) DrawButton(1885, 145, 90, 90, "", "White", "Icons/Exit.png", TextGet("WardenOffice"));
+    if (Player.CanWalk() && PrisonHallWardenAccess == true) DrawButton(1885, 145, 90, 90, "", "White", "Icons/WardenOffice.png", TextGet("WardenOffice"));
 
 }
 
@@ -53,13 +53,14 @@ function PrisonHallClick() {
             InventoryRemove(PrisonHallDisplayPrisoner, "ClothAccessory");      
             InventoryWear(PrisonHallDisplayPrisoner, "LeatherCollar", "ItemNeck"); 
             InventoryWear(PrisonHallDisplayPrisoner, "CollarChainMedium", "ItemNeckRestraints"); 
+            InventoryWear(PrisonHallDisplayPrisoner, "HighSecurityHandCuffs", "ItemArms")
         }
     }
 
 function PrisonHallWardenAccessGet() {
     PrisonHallWardenAccess = true
     PrisonHallCanLeave = false
-}
+    ReputationChange("PrisonWarden", 1);}
 
 function PrisonHallInmateAccessGet() {
     PrisonHallInmateAccess = true
