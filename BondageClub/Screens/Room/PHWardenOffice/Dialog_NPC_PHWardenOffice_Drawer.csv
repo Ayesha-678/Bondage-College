@@ -1,0 +1,20 @@
+0,,,(You notice a drawer in the corner of the room.),,
+0,10,(Open the first drawer.),(You open the first drawer and find a pair of high security handcuffs.)
+0,20,(Open the second drawer.),(You open the second drawer and find a folded up warden unifrom.)
+0,30,(Open the third drawer.),(You open the third drawer and find a note.)
+0,40,(Examine Note.),(You look at the note further.),,HaveNote
+0,50,(Open the secret drawer),(You open the secret drawer and a prison armbinder falls out.),,SecretDrawerDiscovered
+10,,,(Do you want to take the cuffs?),,
+10,0,(Take the cuffs.), (You grab the cuffs.),GivePlayerHighSecHandcuffs(),
+10,0,(Close the drawer.), (You shut the drawer.)
+20,,,(Do you want to take the uniform?),,
+20,0,(Take the warden uniform.),(You grab the uniform and close the drawer.),GivePlayerWardenOutfit(),
+20,0,(Close the drawer.), (You shut the drawer.)
+30,,,(What do you want to do with the note?)
+30,,(Read the note.), (The note reads "To whomever finds this letter, ive left something hidden in this office. if you find it, it's yours."),DialogRemove()
+30,0,(Take the note.), (You grab the note.),GetNote(),
+30,0,(Shut the drawer.), (You shut the drawer.),
+40,,(Read the note again),(You read over the note again. You don't notice anything abnormal.),
+40,,(Hold it up to the light.),(You hold it up to a lamp. you notice some text on the back.),
+40,0,(Flip over the note.),(You flip over the note and it reads "Under the drawers."),DiscoverSecretDrawer(),
+50,0,(Take the binder.),(You grab the binder.),GivePlayerPrisonBinder(),

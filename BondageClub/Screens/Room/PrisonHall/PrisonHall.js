@@ -31,7 +31,7 @@ function PrisonHallClick() {
         if (!PrisonHallHeadWarden) {
             PrisonHallHeadWarden =
             CharacterLoadNPC("NPC_PrisonHall_HeadWarden");
-            InventoryWear(PrisonHallHeadWarden, "LeatherCropTop", "Cloth", "#6256D7");        
+            InventoryWear(PrisonHallHeadWarden, "WardenOutfit", "Cloth");        
             InventoryRemove(PrisonHallHeadWarden, "ClothAccessory");     
             InventoryWear(PrisonHallHeadWarden, "Jeans1", "ClothLower");
             InventoryWear(PrisonHallHeadWarden, "PoliceWomanHat", "Hat");

@@ -243,11 +243,10 @@ function MainHallRun() {
 		DrawButton(145, 145, 90, 90, "", "White", "Icons/Magic.png", TextGet("Magic"));
 		DrawButton(25, 145, 90, 90, "", "White", "Icons/Horse.png", TextGet("Stable"));
 
-		// Cafe
+		// Cafe, PrisonHall
+		DrawButton(265, 265, 90, 90, "", "White", "Icons/PrisonHall.png", TextGet("PrisonHall"));
 		DrawButton(25, 265, 90, 90, "", "White", "Icons/Refreshsments.png", TextGet("Cafe"));
 
-		// Prison Hall
-		DrawButton(265, 265, 90, 90, "", "White", "Icons/PrisonHall.png", TextGet("PrisonHall"))
 
 	} else {
 

@@ -2282,11 +2282,18 @@ var AssetFemale3DCG = [
 					{ Name: "Straps"}
 				],
 			},
-			{ Name: "HighSecurityHandCuffs", Fetish: ["Metal"], SelfBondage: 0, AllowLock: true, Priority: 29, Value: 40, Difficulty: 5, Time: 5, Audio: "LockSmall", SetPose: ["BackCuffs"], Effect: ["Block", "Prone",], Layer: [
+			{ Name: "HighSecurityHandCuffs", Fetish: ["Metal"], SelfBondage: 0, AllowLock: true, Priority: 29, Value: -1, Difficulty: 5, Time: 5, Audio: "LockSmall", SetPose: ["BackCuffs"], Effect: ["Block", "Prone",], Layer: [
 				{ Name: "Cuffs" },
 				{ Name: "Highlights", AllowColorize: false}
 			] },
 			{ Name: "MetalPrisonCuffs", Value: 1, Priority: 29, Left: 0, Top: 0, AllowPose: ["BackBoxTie", "BackElbowTouch", "OverTheHead", "BackCuffs", "Yoked"], Effect: ["CuffedArms"], AllowEffect: ["Block", "Prone", "NotSelfPickable"], AllowType: ["Wrist", "Elbow", "Both"], Extended: true, RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],},
+			{ Name: "PrisonArmbinder", DefaultColor: ["#CF721D", "#835B2F", "Default", "#75502B"], ParentGroup: null, Fetish: ["Leather"], Priority: 6, Value: 80, Difficulty: 10, SelfBondage: 7, Time: 25, RemoveTime: 10, AllowLock: true, SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemHands"], SelfUnlock: false, Layer:  [
+				{ Name: "Leather" },
+				{ Name: "Bands" },
+				{ Name: "Ring" },
+				{ Name: "Straps", Priority: 31, Left: 0, Top: 0,}
+			]},
+
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],
