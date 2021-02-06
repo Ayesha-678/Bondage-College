@@ -72,6 +72,12 @@ const AssetFemale3DCGExtended = {
 				],
 			},
 		}, // HighSecurityStraitJacket
+		PrisonStraitjacket: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				// Modules go here
+			]
+		}
 	}, // ItemArms
 };
 

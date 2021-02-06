@@ -2293,6 +2293,18 @@ var AssetFemale3DCG = [
 				{ Name: "Ring" },
 				{ Name: "Straps", Priority: 31, Left: 0, Top: 0,}
 			]},
+			{
+				Name: "PrisonBedRestraints", Value: 1, DefaultColor: ["#7F4815", "#939393", "#7C5927", "#FFFFFF"], Priority: 39, Difficulty: 5, Time: 5, RemoveTime: 5, Random: false, AllowLock: true, Left: 0, BuyGroup: "MedicalBedRestraints",
+				Prerequisite: ["OnBed"], SetPose: ["Yoked"], Effect: ["Block", "Prone"], Block: ["ItemDevices"], AvailableLocations: ["Asylum"], Hide: ["Cloth", "ClothLower", "ItemVulva", "ItemVulvaPiercings"], HideItem: ["ItemButtAnalBeads2"],
+				HideItemExclude: ["ClothBondageBustier1", "ClothBondageBustier2", "ClothLowerLatexSkirt1", "ClothCorsetShirt", "ClothGown2Top", "ClothLeatherBolero", "ClothLeatherCorsetTop1", "ClothLeatherCropTop", "ClothMistressTop", "ClothReverseBunnySuit", "ClothShoulderlessTop", "ClothComfyTop", "ClothSleevelessTop", "ClothStudentOutfit3", "ClothSuspenderTop1", "ClothSweater1", "ClothTShirt1", "ClothTennisShirt1", "ClothBodyTowel1", "ClothVirginKiller1", "ClothLowerLeggings1", "ClothLowerLeggings2", "ClothLowerMistressBottom", "ItemVulvaLoversVibrator", "ItemVulvaFuturisticVibrator", "ItemVulvaTapeStrips", "ItemVulvaVibratingLatexPanties"],
+				Layer: [
+					{ Name: "Base", Priority: 2, ParentGroup: null },
+					{ Name: "Buckles" },
+					{ Name: "Cuffs" },
+					{ Name: "Edges" }
+
+				],
+			},
 
 			AssetSpankingToys
 		],
