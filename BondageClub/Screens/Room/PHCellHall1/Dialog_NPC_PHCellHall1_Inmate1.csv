@@ -1,0 +1,2 @@
+0,,,Hello warden.,,HasWardenAccess()
+0,,,Hello fellow inmate.,,HasInmateAccess()

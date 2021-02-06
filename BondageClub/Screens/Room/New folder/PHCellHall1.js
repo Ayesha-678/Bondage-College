@@ -13,7 +13,6 @@ function PHCellHall1Run() {
 
 function PHCellHall1Click() {
     if (MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(Player);
-    if (MouseIn(250, 0, 500, 1000)) CharacterSetCurrent(PHCellHall1Inmate1);
     if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "PrisonHall");
 
 
@@ -30,12 +29,4 @@ function PHCellHall1Load() {
         InventoryWear(PHCellHall1Inmate1, "Pajama1", "ClothLower", "#834D0F")
         InventoryRemove(PHCellHall1Inmate1, "Shoes")
     }
-}
-
-function PHCellHall1HasWardenAccess() {
-    return PrisonHallWardenAccess
-}
-
-function PHCellHall1HasInmateAccess() {
-    return PrisonHallInmateAccess
 }
