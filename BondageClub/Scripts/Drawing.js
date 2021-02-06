@@ -704,6 +704,7 @@ function DrawTextWrap(Text, X, Y, Width, Height, ForeColor, BackColor, MaxLine) 
 		MainCanvas.stroke();
 		MainCanvas.closePath();
 	}
+	if (!Text) return;
 
 	// Sets the text size if there's a maximum number of lines
 	let TextSize;
@@ -763,6 +764,7 @@ function DrawTextWrap(Text, X, Y, Width, Height, ForeColor, BackColor, MaxLine) 
  * @returns {void} - Nothing
  */
 function DrawTextFit(Text, X, Y, Width, Color, BackColor) {
+	if (!Text) return;
 
 	for (let S = 36; S >= 10; S = S - 2) {
 		MainCanvas.font = CommonGetFont(S.toString());
@@ -792,6 +794,7 @@ function DrawTextFit(Text, X, Y, Width, Color, BackColor) {
  * @returns {void} - Nothing
  */
 function DrawText(Text, X, Y, Color, BackColor) {
+	if (!Text) return;
 
 	// Draw a back color relief text if needed
 	if ((BackColor != null) && (BackColor != "")) {
@@ -1095,15 +1098,15 @@ function DrawProcess() {
 		}
 		if (DarkFactor > 0.0) {
 			const Invert = Player.GraphicsSettings && Player.GraphicsSettings.InvertRoom && Player.IsInverted();
-			DrawImage("Backgrounds/" + B + ".jpg", 0, 0, Invert);
+			if (!DrawImage("Backgrounds/" + B + ".jpg", 0, 0, Invert)) {
+				// Draw empty background to overdraw old content if background image isn't ready
+				DrawRect(0, 0, 2000, 1000, "#000");
+			}
 		}
 		if (DarkFactor < 1.0) DrawRect(0, 0, 2000, 1000, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
 	}
 
-	// Draws the dialog screen or current screen if there's no loaded character
-	if (CurrentCharacter != null) DialogDraw();
-	else if (!RefreshDrawFunction) DrawRun();
-	else {
+	if (RefreshDrawFunction) {
 		DrawRun = DrawRunMap.get(CurrentScreen);
 		if (DrawRun == null) {
 			if (typeof window[CurrentScreen + "Run"] === 'function') {
@@ -1114,8 +1117,11 @@ function DrawProcess() {
 				DrawRun = () => { };
 			}
 		}
-		DrawRun();
 	}
+
+	// Draws the dialog screen or current screen if there's no loaded character
+	if (CurrentCharacter != null) DialogDraw();
+	else DrawRun();
 
 	// Draws beep from online player sent by the server
 	ServerDrawBeep();
