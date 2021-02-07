@@ -35,10 +35,12 @@ const AssetFemale3DCGExtended = {
 						Options: [
 							{}, // c0 - No crotch panel
 							{ // c1 - Crotch panel
-								Difficulty: 1,
-								Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-								Hide: ["ItemVulva", "ItemVulvaPiercings"],
-								HideItem: ["ItemButtAnalBeads2"],
+								Property: {
+									Difficulty: 1,
+									Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+									Hide: ["ItemVulva", "ItemVulvaPiercings"],
+									HideItem: ["ItemButtAnalBeads2"],
+								},
 							},
 						],
 					},
@@ -46,8 +48,8 @@ const AssetFemale3DCGExtended = {
 						Name: "Arms", Key: "a",
 						Options: [
 							{}, // a0 - Arms loose
-							{ Difficulty: 2, SelfBondage: 8 }, // a1 - Arms in front
-							{ Difficulty: 3, SelfBondage: 8 }, // a2 - Arms behind
+							{ Property: { Difficulty: 2 }, SelfBondageLevel: 8 }, // a1 - Arms in front
+							{ Property: { Difficulty: 3 }, SelfBondageLevel: 8 }, // a2 - Arms behind
 						],
 					},
 					{
@@ -55,17 +57,21 @@ const AssetFemale3DCGExtended = {
 						Options: [
 							{}, // s0 - No crotch straps
 							{ // s1 - One crotch strap
-								Difficulty: 1,
-								Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-								Hide: ["ItemVulvaPiercings"],
-								HideItem: ["ItemButtAnalBeads2"],
+								Property: {
+									Difficulty: 1,
+									Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+									Hide: ["ItemVulvaPiercings"],
+									HideItem: ["ItemButtAnalBeads2"],
+								},
 							},
-							{ Difficulty: 2, Block: ["ItemPelvis"] }, // s2 - Two crotch straps
+							{ Property: { Difficulty: 2, Block: ["ItemPelvis"] } }, // s2 - Two crotch straps
 							{ // s3 - Three crotch straps
-								Difficulty: 2,
-								Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
-								Hide: ["ItemVulvaPiercings"],
-								HideItem: ["ItemButtAnalBeads2"],
+								Property: {
+									Difficulty: 2,
+									Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+									Hide: ["ItemVulvaPiercings"],
+									HideItem: ["ItemButtAnalBeads2"],
+								},
 							},
 						],
 					},

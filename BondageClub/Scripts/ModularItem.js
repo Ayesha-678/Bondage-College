@@ -233,13 +233,15 @@ function ModularItemCreateDrawBaseFunction(data) {
  */
 function ModularItemMapOptionToButtonDefinition(option, i, module, { asset, dialogOptionPrefix }) {
 	const C = CharacterGetCurrent();
-	const failLockCheck = DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem);
-	const failSkillCheck = option.SelfBondage && C.ID === 0 && SkillGetLevelReal(C, "SelfBondage") < option.SelfBondage;
 	const optionName = `${module.Key}${i}`;
+	let color = "#fff";
+	if (DialogFocusItem.Property.Type && DialogFocusItem.Property.Type.includes(optionName)) color = "#888";
+	else if (DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem)) color = "pink";
+	else if (ExtendedItemRequirementCheckMessageMemo(option, C.ID === 0)) color = "pink";
 	return [
 		`${AssetGetInventoryPath(asset)}/${optionName}.png`,
 		`${dialogOptionPrefix}${optionName}`,
-		(failLockCheck || failSkillCheck) ? "#ffc0cb" : "#fff",
+		color,
 	];
 }
 
@@ -292,7 +294,10 @@ function ModularItemCreateClickBaseFunction(data) {
 	return () => {
 		ModularItemClickCommon(
 			{ paginate, positions },
-			() => DialogFocusItem = null,
+			() => {
+				ExtendedItemExit();
+				DialogFocusItem = null;
+			},
 			i => {
 				const pageNumber = Math.min(pageCount - 1, data.pages[ModularItemBase] || 0);
 				const pageStart = pageNumber * ModularItemsPerPage;
@@ -401,12 +406,13 @@ function ModularItemParseCurrent({ asset, modules }) {
  */
 function ModularItemMergeModuleValues({ asset, modules }, moduleValues) {
 	const options = modules.map((module, i) => module.Options[moduleValues[i] || 0]);
-	return options.reduce((property, componentProperty) => {
-		property.Difficulty += (componentProperty.Difficulty || 0);
-		if (componentProperty.Block) ModularItemAddToArray(property.Block, componentProperty.Block);
-		if (componentProperty.Hide) ModularItemAddToArray(property.Hide, componentProperty.Hide);
-		if (componentProperty.HideItem) ModularItemAddToArray(property.HideItem, componentProperty.HideItem);
-		return property;
+	return options.reduce((mergedProperty, { Property }) => {
+		Property = Property || {};
+		mergedProperty.Difficulty += (Property.Difficulty || 0);
+		if (Property.Block) ModularItemAddToArray(mergedProperty.Block, Property.Block);
+		if (Property.Hide) ModularItemAddToArray(mergedProperty.Hide, Property.Hide);
+		if (Property.HideItem) ModularItemAddToArray(mergedProperty.HideItem, Property.HideItem);
+		return mergedProperty;
 	}, {
 		Type: ModularItemConstructType(modules, moduleValues),
 		Difficulty: asset.Difficulty,
@@ -443,16 +449,9 @@ function ModularItemSetType(module, index, data) {
 	const C = CharacterGetCurrent();
 	DialogFocusItem = InventoryGet(C, C.FocusGroup.Name);
 	const option = module.Options[index];
-
-	// Lock check - cannot change type if you can't unlock the item
-	if (DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem)) {
-		DialogExtendedMessage = DialogFindPlayer("CantChangeWhileLocked");
-		return;
-	}
-
-	// Self bondage requirement check
-	if (option.SelfBondage && C.ID === 0 && SkillGetLevelReal(C, "SelfBondage") < option.SelfBondage) {
-		DialogExtendedMessage = DialogFindPlayer("RequireSelfBondage" + option.SelfBondage);
+	const requirementMessage = ExtendedItemRequirementCheckMessage(option, C.ID === 0);
+	if (requirementMessage) {
+		DialogExtendedMessage = requirementMessage;
 		return;
 	}
 
