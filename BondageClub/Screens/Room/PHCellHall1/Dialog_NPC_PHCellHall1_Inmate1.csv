@@ -3,4 +3,6 @@
 0,,"Hello there.", "Well, what do you need warden? Am i in trouble?" (She smiles),DialogRemove(),HasWardenAccess()
 0,,(You notice her staring at your bag),"You have a prison armbinder. Take these." (She gives you a bunch of extra straps for it.),GivePlayerExtraStraps(),CheckPrisonArmbinderInmate()
 0,,"Hey there.", "Did you need something? Us inmates have eachothers backs you know.",DialogRemove(),HasInmateAccess()
-0,,"Strip. I need to check you.","Ugh, fine." (She slowly strips).,StripInmate1(),HasWardenAccess()
+0,10,"Strip. I need to check you.","Ugh, fine." (She slowly strips).,StripInmate1(),HasWardenAccess()
+10,20,"Now put your hands up.", "Ugh...Fine.",Inmate1ArmsUp(),HasWardenAccess()\
+20,,(Feel her up.), (You feel up her body, groping her butt and breasts.) "H-hey!",DialogRemove(),HasWardenAccess()
