@@ -47,3 +47,7 @@ function PHCellHall1CheckPrisonArmbinderInmate() {
 function PHCellHall1GivePlayerExtraStraps() {
     LogAdd("ExtraStraps", "PrisonHall", null, true)
 }
+
+function PHCellHall1StripInmate1() {
+    CharacterNaked(PHCellHall1Inmate1)
+}
