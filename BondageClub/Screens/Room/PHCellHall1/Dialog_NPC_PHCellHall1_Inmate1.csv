@@ -1,2 +1,4 @@
 0,,,Hello warden.,,HasWardenAccess()
 0,,,Hello fellow inmate.,,HasInmateAccess()
+0,,"Hello there.", "Well, what do you need warden? Am i in trouble?" (She smiles),DialogRemove(),HasWardenAccess()
+0,,(You notice her staring at your bag),"You have a prison armbinder. Take these." (She gives you a bunch of extra straps for it.),GivePlayerExtraStraps(),CheckPrisonArmbinderInmate()

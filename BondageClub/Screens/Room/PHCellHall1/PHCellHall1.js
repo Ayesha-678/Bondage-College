@@ -39,3 +39,11 @@ function PHCellHall1HasWardenAccess() {
 function PHCellHall1HasInmateAccess() {
     return PrisonHallInmateAccess
 }
+
+function PHCellHall1CheckPrisonArmbinderInmate() {
+    return PrisonHallInmateAccess && InventoryAvailable(Player, "PrisonArmbinder", "ItemArms")
+}
+
+function PHCellHall1GivePlayerExtraStraps() {
+    LogAdd("ExtraStraps", "PrisonHall", null, true)
+}

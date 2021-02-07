@@ -2287,15 +2287,19 @@ var AssetFemale3DCG = [
 				{ Name: "Highlights", AllowColorize: false}
 			] },
 			{ Name: "MetalPrisonCuffs", Value: 1, Priority: 29, Left: 0, Top: 0, AllowPose: ["BackBoxTie", "BackElbowTouch", "OverTheHead", "BackCuffs", "Yoked"], Effect: ["CuffedArms"], AllowEffect: ["Block", "Prone", "NotSelfPickable"], AllowType: ["Wrist", "Elbow", "Both"], Extended: true, RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],},
-			{ Name: "PrisonArmbinder", DefaultColor: ["#CF721D", "#835B2F", "Default", "#75502B"], ParentGroup: null, Fetish: ["Leather"], Priority: 6, Value: -1 , Difficulty: 10, SelfBondage: 7, Time: 25, RemoveTime: 10, AllowLock: true, SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemHands"], SelfUnlock: false, Layer:  [
-				{ Name: "Leather" },
-				{ Name: "Bands" },
-				{ Name: "Ring" },
-				{ Name: "Straps", Priority: 31, Left: 0, Top: 0,}
+			{ Name: "PrisonArmbinder", Extended: true, DefaultColor: ["#CF721D", "#835B2F", "Default", "#75502B"], ParentGroup: null, Fetish: ["Leather"], Priority: 6, Value: -1 , Difficulty: 10, SelfBondage: 7, Time: 25, RemoveTime: 10, AllowType: ["CrossStraps", "RingStraps","SecurityStraps"], AllowLock: true, SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"], Block: ["ItemHands"], SelfUnlock: false, Layer:  [
+				{ Name: "Leather", HasType: false },
+				{ Name: "Bands", HasType: false},
+				{ Name: "Ring", HasType: false },
+				{ Name: "Straps", Priority: 31, Left: 0, Top: 0, HasType: false, AllowTypes: ["","Straps"]},
+				{ Name: "CrossStraps", HasType: false, CopyLayerColor: "Straps", Priority: 32, Left: 0, Top:0, AllowTypes: ["CrossStraps"] },
+				{ Name: "RingStraps", HasType: false, CopyLayerColor: "Straps", Priority: 32, Left: 0, Top:0, AllowTypes: ["RingStraps"] },
+				{ Name: "SecurityStraps", HasType: false, CopyLayerColor: "Straps", Priority: 32, Left: 0, Top:0, AllowTypes: ["SecurityStraps"] },
+
 			]},
 			{
-				Name: "PrisonBedRestraints", Value: 1, DefaultColor: ["#7F4815", "#939393", "#7C5927", "#FFFFFF"], Priority: 39, Difficulty: 5, Time: 5, RemoveTime: 5, Random: false, AllowLock: true, Left: 0, BuyGroup: "MedicalBedRestraints",
-				Prerequisite: ["OnBed"], SetPose: ["Yoked"], Effect: ["Block", "Prone"], Block: ["ItemDevices"], AvailableLocations: ["Asylum"], Hide: ["Cloth", "ClothLower", "ItemVulva", "ItemVulvaPiercings"], HideItem: ["ItemButtAnalBeads2"],
+				Name: "PrisonBedRestraints", DrawLocks: false, Value: 1, DefaultColor: ["#7F4815", "#939393", "#7C5927", "#FFFFFF"], Priority: 39, Difficulty: 5, Time: 5, RemoveTime: 5, Random: false, AllowLock: true, Left: 0, BuyGroup: "MedicalBedRestraints",
+				Prerequisite: ["OnBed"], SetPose: ["Yoked"], Effect: ["Block", "Prone"], Block: ["ItemDevices"], Hide: ["Cloth", "ClothLower", "ItemVulva", "ItemVulvaPiercings"], HideItem: ["ItemButtAnalBeads2"],
 				HideItemExclude: ["ClothBondageBustier1", "ClothBondageBustier2", "ClothLowerLatexSkirt1", "ClothCorsetShirt", "ClothGown2Top", "ClothLeatherBolero", "ClothLeatherCorsetTop1", "ClothLeatherCropTop", "ClothMistressTop", "ClothReverseBunnySuit", "ClothShoulderlessTop", "ClothComfyTop", "ClothSleevelessTop", "ClothStudentOutfit3", "ClothSuspenderTop1", "ClothSweater1", "ClothTShirt1", "ClothTennisShirt1", "ClothBodyTowel1", "ClothVirginKiller1", "ClothLowerLeggings1", "ClothLowerLeggings2", "ClothLowerMistressBottom", "ItemVulvaLoversVibrator", "ItemVulvaFuturisticVibrator", "ItemVulvaTapeStrips", "ItemVulvaVibratingLatexPanties"],
 				Layer: [
 					{ Name: "Base", Priority: 2, ParentGroup: null },
