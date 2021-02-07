@@ -2234,17 +2234,17 @@ var AssetFemale3DCG = [
 				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemTorso", "ItemBreast", "ItemHands"],
 				Extended: true,
 				Layer: [
-					{ Name: "Crotch", ColorGroup: "Canvas", ParentGroup: null, AllowTypes: ["c1a0s0", "c1a0s1", "c1a0s2", "c1a0s3", "c1a1s0", "c1a1s1", "c1a1s2", "c1a1s3", "c1a2s0", "c1a2s1", "c1a2s2", "c1a2s3"], HasType: false },
-					{ Name: "JacketLoose", ColorGroup: "Canvas", ParentGroup: null, AllowTypes: ["c0a0s0", "c0a0s1", "c0a0s2", "c0a0s3", "c1a0s0", "c1a0s1", "c1a0s2", "c1a0s3"], HasType: false},
-					{ Name: "JacketFront", CopyLayerColor: "JacketLoose", AllowTypes: ["c0a1s0", "c0a1s1", "c0a1s2", "c0a1s3", "c1a1s0", "c1a1s1", "c1a1s2", "c1a1s3"], HasType: false },
-					{ Name: "JacketBack", CopyLayerColor: "JacketLoose", AllowTypes: ["c0a2s0", "c0a2s1", "c0a2s2", "c0a2s3", "c1a2s0", "c1a2s1", "c1a2s2", "c1a2s3"], HasType: false },
-					{ Name: "StrapsLoose", ColorGroup: "Straps", AllowTypes: ["c0a0s0", "c0a0s1", "c0a0s2", "c0a0s3", "c1a0s0", "c1a0s1", "c1a0s2", "c1a0s3"], HasType: false},
-					{ Name: "StrapsFront", CopyLayerColor: "StrapsLoose", AllowTypes: ["c0a1s0", "c0a1s1", "c0a1s2", "c0a1s3", "c1a1s0", "c1a1s1", "c1a1s2", "c1a1s3"], HasType: false },
-					{ Name: "StrapsBack", CopyLayerColor: "StrapsLoose", AllowTypes: ["c0a2s0", "c0a2s1", "c0a2s2", "c0a2s3", "c1a2s0", "c1a2s1", "c1a2s2", "c1a2s3"], HasType: false },
-					{ Name: "CrotchStrapsSingle", ColorGroup: "Straps", ParentGroup: null, AllowTypes: ["c0a0s1", "c0a1s1", "c0a2s1", "c1a0s1", "c1a1s1", "c1a2s1"], HasType: false },
-					{ Name: "CrotchStrapsDouble", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, AllowTypes: ["c0a0s2", "c0a1s2", "c0a2s2", "c1a0s2", "c1a1s2", "c1a2s2"], HasType: false },
-					{ Name: "CrotchStrapsTriple", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, AllowTypes: ["c0a0s3", "c0a1s3", "c0a2s3", "c1a0s3", "c1a1s3", "c1a2s3"], HasType: false },
-					{ Name: "Lock", AllowColorize: false, ParentGroup: null, AllowTypes: ["c0a0s1", "c0a0s2", "c0a0s3", "c0a1s1", "c0a1s2", "c0a1s3", "c0a2s0", "c0a2s1", "c0a2s2", "c0a2s3", "c1a0s1", "c1a0s2", "c1a0s3", "c1a1s1", "c1a1s2", "c1a1s3", "c1a2s0", "c1a2s1", "c1a2s2", "c1a2s3"], LockLayer: true }
+					{ Name: "Crotch", ColorGroup: "Canvas", ParentGroup: null, AllowModuleTypes: ["c1"], HasType: false },
+					{ Name: "JacketLoose", ColorGroup: "Canvas", ParentGroup: null, AllowModuleTypes: ["a0"], HasType: false},
+					{ Name: "JacketFront", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a1"], HasType: false },
+					{ Name: "JacketBack", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a2"], HasType: false },
+					{ Name: "StrapsLoose", ColorGroup: "Straps", AllowModuleTypes: ["a0"], HasType: false},
+					{ Name: "StrapsFront", CopyLayerColor: "StrapsLoose", AllowModuleTypes: ["a1"], HasType: false },
+					{ Name: "StrapsBack", CopyLayerColor: "StrapsLoose", AllowModuleTypes: ["a2"], HasType: false },
+					{ Name: "CrotchStrapsSingle", ColorGroup: "Straps", ParentGroup: null, AllowModuleTypes: ["s1"], HasType: false },
+					{ Name: "CrotchStrapsDouble", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, AllowModuleTypes: ["s2"], HasType: false },
+					{ Name: "CrotchStrapsTriple", CopyLayerColor: "CrotchStrapsSingle", ParentGroup: null, AllowModuleTypes: ["s3"], HasType: false },
+					{ Name: "Lock", AllowColorize: false, ParentGroup: null, AllowModuleTypes: ["s1", "s2", "s3", "a2"], LockLayer: true }
 				],
 				SelfUnlock: false
 			},
