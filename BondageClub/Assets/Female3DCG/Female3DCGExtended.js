@@ -179,6 +179,52 @@ const AssetFemale3DCGExtended = {
 		},
 	}
 	}, // ItemArms
+	ItemHood: {
+		KirugumiMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
+				ChatSetting: ModularItemChatSetting.PER_MODULE,
+				Modules: [
+					{
+						Name: "Eyes", Key: "e",
+						Options: [ // All options are merely cosmetic
+							{},
+							{},
+							{}, 
+							{},
+						],
+					},
+					{
+						Name: "Mouth", Key: "m",
+						Options: [ // All options are merely cosmetic
+							{},
+							{},
+							{}, 
+							{},
+						],
+					},
+					{
+						Name: "Blush", Key: "b",
+						Options: [ // All options are merely cosmetic
+							{},
+							{},
+							{}, 
+							{},
+						],
+					},
+					{
+						Name: "Brows", Key: "br",
+						Options: [ // All options are merely cosmetic
+							{},
+							{},
+							{}, 
+							{},
+						],
+					},
+				],
+			},
+		}, // KirugumiMask
+	}, // ItemHood
 };
 
 /**
