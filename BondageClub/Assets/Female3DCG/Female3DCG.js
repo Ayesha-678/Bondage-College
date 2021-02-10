@@ -2326,7 +2326,38 @@ var AssetFemale3DCG = [
 
 				],
 			},
+			{ Name: "PrisonStraitJacket", DefaultColor: ["#CF721D","#CF721D","#CF721D", "#75502B", "#bbbbbb", "#75502B", "#75502B"], Value: 1, Priority: 25, Difficulty: 4, SelfBondage: 2, Time: 45, RemoveTime: 30, Random: false, AllowLock: true, DrawLocks: false, Hide: ["Cloth", "ItemNipplesPiercings"], SetPose: ["BackElbowTouch"], Effect: ["Block", "Prone"],
+				AllowBlock: ["ItemNipples", "ItemNipplesPiercings", "ItemTorso", "ItemBreast", "ItemHands", "ItemVulva", "ItemVulvaPiercings", "ItemButt", "ItemPelvis"],
+				Block: ["ItemNipples", "ItemNipplesPiercings", "ItemTorso", "ItemBreast", "ItemHands"],
+				Extended: true,
+				Layer: [
+					{ Name: "Shorts", ColorGroup: "Canvas", AllowModuleTypes: ["s1"], HasType: false },
+					{ Name: "CrotchPanel", ColorGroup: "Canvas", ParentGroup: null, AllowModuleTypes: ["c1"], HasType: false },
+					{ Name: "JacketLoose", ColorGroup: "Canvas", AllowModuleTypes: ["a0"], HasType: false},
+					{ Name: "JacketFront", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a1"], HasType: false },
+					{ Name: "JacketBack", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a2"], HasType: false },
+					{ Name: "JacketSheathFront", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a7"], HasType: false },
+					{ Name: "JacketSheathBack", CopyLayerColor: "JacketLoose", AllowModuleTypes: ["a8"], HasType: false },
+					{ Name: "ArmStrapsLoose", ColorGroup: "ArmStraps", ParentGroup: null, AllowModuleTypes: ["a0"], HasType: false},
+					{ Name: "ArmStrapsBuckleLoose", ColorGroup: "ArmStraps", ParentGroup: null, AllowModuleTypes: ["a0"], HasType: false},
+					{ Name: "ArmStrapsBack", CopyLayerColor: "ArmStrapsLoose", ParentGroup: null, AllowModuleTypes: ["a2"], HasType: false},
+					{ Name: "ArmStrapsBuckleBack", CopyLayerColor: "ArmStrapsBuckleLoose", ParentGroup: null, AllowModuleTypes: ["a2"], HasType: false},
+					{ Name: "SingleCrotchStrap", ParentGroup: null, AllowModuleTypes: ["d1"], HasType: false },
+					{ Name: "BasicBodyStraps", AllowModuleTypes: ["b1"], HasType: false },
+					{ Name: "IntricateBodyStraps", CopyLayerColor: "BasicBodyStraps", AllowModuleTypes: ["b2"], HasType: false },
+					{ Name: "ExtremeBodyStraps", CopyLayerColor: "BasicBodyStraps", AllowModuleTypes: ["b3"], HasType: false },
+					{ Name: "MiddleArmLoop", ParentGroup: null, AllowModuleTypes: ["al1"], HasType: false },
+					{ Name: "LowArmLoop", CopyLayerColor: "MiddleArmLoop", ParentGroup: null, AllowModuleTypes: ["al2"], HasType: false },
+					{ Name: "HighArmLoop", CopyLayerColor: "MiddleArmLoop", ParentGroup: null, AllowModuleTypes: ["al3"], HasType: false },
+					{ Name: "SideArmLoops", CopyLayerColor: "MiddleArmLoop", ParentGroup: null, AllowModuleTypes: ["al4"], HasType: false }
 
+
+
+
+
+				],
+				SelfUnlock: false
+			},
 			AssetSpankingToys
 		],
 		Color: ["Default", "#202020", "#808080", "#bbbbbb", "#aa8080", "#80aa80", "#8080aa", "#aaaa80", "#80aaaa", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"],

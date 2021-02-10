@@ -78,12 +78,106 @@ const AssetFemale3DCGExtended = {
 				],
 			},
 		}, // HighSecurityStraitJacket
-		PrisonStraitjacket: {
+		PrisonStraitJacket: {
 			Archetype: ExtendedArchetype.MODULAR,
+			Config: {
 			Modules: [
-				// Modules go here
+				{
+					Name: "Arms", Key: "a",
+					Options: [
+						{}, // a0 - Arms loose
+						{ Property: { Difficulty: 2 }, SelfBondageLevel: 8 }, // a1 - Arms in front
+						{ Property: { Difficulty: 3 }, SelfBondageLevel: 8 }, // a2 - Arms behind
+						{ Property: { Difficulty: 3 }, SelfBondageLevel: 8 }, // a3 - Arms crossed down
+						{ Property: { Difficulty: 3 }, SelfBondageLevel: 8 }, // a4 - Arms crossed up
+						{ Property: { Difficulty: 3 }, SelfBondageLevel: 8 }, // a5 - Arms crossed down (behind back)
+						{ Property: { Difficulty: 4 }, SelfBondageLevel: 8 }, // a6- Arms crossed up (behind back)
+						{ Property: { Difficulty: 4 }, SelfBondageLevel: 8 }, // a7- Arm sheath 
+						{ Property: { Difficulty: 4 }, SelfBondageLevel: 8 }, // a8- Arm sheath (behind back)
+
+
+
+
+
+					],
+				},
+				{
+					Name: "CrotchPanel", Key: "c",
+					Options: [
+						{}, // c0 - No crotch panel
+						{ 	Property: {
+							Difficulty: 1,
+							Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+							Hide: ["ItemVulva", "ItemVulvaPiercings"],
+							HideItem: ["ItemButtAnalBeads2"],
+						},
+					}, // a1 - Crotch panel
+
+
+
+
+					],
+				},
+				{
+					Name: "Shorts", Key: "s",
+					Options: [
+						{}, // s0 - No shorts
+						{ 	Property: {
+							Difficulty: 1,
+							Block: ["ItemPelvis", "ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+							Hide: ["ItemVulva", "ItemVulvaPiercings"],
+							HideItem: ["ItemButtAnalBeads2"],
+						},
+					}, // s1 - Shorts
+
+
+
+					],
+				},
+				{
+					Name: "ArmLoop", Key: "al",
+					Options: [
+						{}, // al0 - No arm loop
+						{ Property: { Difficulty: 2 }, SelfBondageLevel: 8 }, // al1 - Middle arm loop
+						{ Property: { Difficulty: 3 }, SelfBondageLevel: 8 }, // al2 - Low arm loop
+						{ Property: { Difficulty: 3 }, SelfBondageLevel: 8 }, // al3 - High arm loop
+						{ Property: { Difficulty: 3 }, SelfBondageLevel: 8 }, // al4 - Side arm loops
+					
+
+
+
+
+					],
+				},
+				{
+					Name: "BodyStraps", Key: "b",
+					Options: [
+						{}, // b0 - No body straps
+						{ Property: { Difficulty: 2 }, SelfBondageLevel: 8 }, // b1 - Basic body straps
+						
+					
+
+
+
+
+					],
+				},
+				{
+					Name: "CrotchStraps", Key: "d",
+					Options: [
+						{}, // d0 - No crotch straps
+						{ Property: { Difficulty: 2 }, SelfBondageLevel: 8 }, // d1 - Single crotch strap
+						
+					
+
+
+
+
+					],
+				},
 			]
-		}
+		},
+	}
 	}, // ItemArms
 };
 
