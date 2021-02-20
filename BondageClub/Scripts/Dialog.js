@@ -353,8 +353,8 @@ function DialogHasKey(C, Item) {
 	if (InventoryGetItemProperty(Item, "SelfUnlock") == false && (!Player.CanInteract() || C.ID == 0)) return false;
 	if (C.IsOwnedByPlayer() && InventoryAvailable(Player, "OwnerPadlockKey", "ItemMisc") && Item.Asset.Enable) return true;
 	const lock = InventoryGetLock(Item);
-	if (lock && lock.Asset.ExclusiveUnlock && ((!Item.Property.MemberNumberListKeys && Item.Property.LockMemberNumber != Player.MemberNumber) || (Item.Property.MemberNumberListKeys && CommonConvertStringToArray("" + Item.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) < 0))) return false;
 	if (C.IsLoverOfPlayer() && InventoryAvailable(Player, "LoversPadlockKey", "ItemMisc") && Item.Asset.Enable && Item.Property && !Item.Property.LockedBy.startsWith("Owner")) return true;
+	if (lock && lock.Asset.ExclusiveUnlock && ((!Item.Property.MemberNumberListKeys && Item.Property.LockMemberNumber != Player.MemberNumber) || (Item.Property.MemberNumberListKeys && CommonConvertStringToArray("" + Item.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) < 0))) return false;
 
     if (lock && lock.Asset.ExclusiveUnlock) return true;
 
@@ -423,7 +423,7 @@ function DialogLeave() {
 	if (CurrentCharacter) {
 		if (CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber) {
 			CharacterAppearanceForceUpCharacter = -1;
-			CharacterAppearanceSetHeightModifiers(CurrentCharacter);
+			CharacterRefresh(CurrentCharacter, false);
 		}
 		CurrentCharacter.FocusGroup = null;
 	}
@@ -1187,7 +1187,7 @@ function DialogMenuButtonClick() {
 			// Exit Icon - Go back to the character dialog
 			if (DialogMenuButton[I] == "Exit") {
 				if (DialogItemPermissionMode) ChatRoomCharacterUpdate(Player);
-				if ((DialogProgressStruggleCount >= 50) && (DialogProgressChallenge > 6) && (DialogProgressAuto < 0)) ChatRoomStimulationMessage("StruggleFail")
+				if ((DialogProgressStruggleCount >= 50) && (DialogProgressChallenge > 6) && (DialogProgressAuto < 0) && (DialogProgress > 0)) ChatRoomStimulationMessage("StruggleFail")
 				DialogLeaveItemMenu();
 				return;
 			}
@@ -1525,7 +1525,7 @@ function DialogClick() {
 	// If the user clicked anywhere outside the current character item zones, ensure the position is corrected
 	if (CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber && ((MouseX < 500) || (MouseX > 1000) || (CurrentCharacter.FocusGroup == null))) {
 		CharacterAppearanceForceUpCharacter = -1;
-		CharacterAppearanceSetHeightModifiers(CurrentCharacter);
+		CharacterRefresh(CurrentCharacter, false);
 	}
 
 	// In activity mode, we check if the user clicked on an activity box
@@ -1865,7 +1865,7 @@ function DialogDrawStruggleProgress(C) {
 		// Reset the the character's position
 		if (CharacterAppearanceForceUpCharacter == C.MemberNumber) {
 			CharacterAppearanceForceUpCharacter = -1;
-			CharacterAppearanceSetHeightModifiers(C);
+			CharacterRefresh(C, false);
 		}
 
 		// Rebuilds the menu
@@ -1907,13 +1907,13 @@ function DialogLockPickClick(C) {
 								DialogLockPickProgressCurrentTries += 1
 							}
 						} else {
+							DialogLockPickTotalTries += 1
 							// There is a chance we false set
-							if (Math.random() < false_set_chance) {
+							if (Math.random() < false_set_chance && DialogLockPickImpossiblePins.filter(x => x==P).length == 0) {
 								DialogLockPickSetFalse[P] = true
 							} else if (DialogLockPickSetFalse[P] == false) {
 							// Otherwise: fail
 								DialogLockPickProgressCurrentTries += 1
-								DialogLockPickTotalTries += 1
 							}
 						}
 						if (DialogLockPickProgressCurrentTries < DialogLockPickProgressMaxTries) {
@@ -2030,6 +2030,7 @@ function DialogDrawLockpickProgress(C) {
 
 	DrawText(DialogFindPlayer("LockpickIntro"), X, 800, "white");
 	DrawText(DialogFindPlayer("LockpickIntro2"), X, 850, "white");
+	DrawText(DialogFindPlayer("LockpickIntro3"), X, 900, "white");
 
 	if (DialogLockPickSuccessTime != 0) {
 		if (CurrentTime > DialogLockPickSuccessTime) {
@@ -2039,6 +2040,7 @@ function DialogDrawLockpickProgress(C) {
 				var item = InventoryGet(C, C.FocusGroup.Name)
 				if (item) {
 					InventoryUnlock(C, item)
+					if (CurrentScreen == "ChatRoom") ChatRoomPublishAction(C, item, null, C.ID !== 0, "ActionPick");
 				}
 			}
 			SkillProgress("LockPicking", DialogLockPickProgressSkill);
@@ -2051,11 +2053,6 @@ function DialogDrawLockpickProgress(C) {
 				
 			} else {
 				DialogLeaveItemMenu();
-			}
-			if (CurrentScreen == "ChatRoom" && Player.FocusGroup) {
-				var item = InventoryGet(C, Player.FocusGroup.Name)
-				if (item)
-					ChatRoomPublishAction(C, item, null, true, "ActionPick");
 			}
 		}
 	} else {

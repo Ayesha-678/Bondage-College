@@ -163,7 +163,6 @@ function ChatRoomHasSwapTarget() { return (ChatRoomSwapTarget != null) }
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
  */
 function ChatRoomCanGiveHighSecurityKeys() {
-	if (!CurrentCharacter.AllowItem) return false
 	if (Player.Appearance != null)
 		for (let A = 0; A < Player.Appearance.length; A++)
 			if (Player.Appearance[A].Asset.IsRestraint && Player.Appearance[A].Property && InventoryGetLock(Player.Appearance[A]) && InventoryGetLock(Player.Appearance[A]).Asset.ExclusiveUnlock
@@ -180,7 +179,6 @@ function ChatRoomCanGiveHighSecurityKeys() {
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
  */
 function ChatRoomCanGiveHighSecurityKeysAll() {
-	if (!CurrentCharacter.AllowItem) return false
 	if (Player.Appearance != null)
 		for (let A = 0; A < Player.Appearance.length; A++)
 			if (Player.Appearance[A].Asset.IsRestraint && Player.Appearance[A].Property && InventoryGetLock(Player.Appearance[A]) && InventoryGetLock(Player.Appearance[A]).Asset.ExclusiveUnlock
@@ -236,7 +234,7 @@ function ChatRoomGiveHighSecurityKeysAll() {
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
  */
 function ChatRoomCanGiveLockpicks() { 
-	if (CurrentCharacter.AllowItem && CurrentCharacter.IsLocked() && Player.CanInteract())
+	if (Player.CanInteract())
 		for (let I = 0; I < Player.Inventory.length; I++)
 			if (Player.Inventory[I].Name == "Lockpicks") {
 				return true;  
@@ -840,7 +838,8 @@ function ChatRoomStimulationMessage(Context) {
 		// Now we have a trigger message, hopefully!
 		if (trigMsg != "") {
 			// Increase player arousal to the zone
-			ActivityEffectFlat(Player, Player, arousalAmount, trigGroup, 1)
+			if (!Player.IsEdged() && Player.ArousalSettings && Player.ArousalSettings.Progress && Player.ArousalSettings.Progress < 70 - arousalAmount)
+				ActivityEffectFlat(Player, Player, arousalAmount, trigGroup, 1)
 	
 			if ((Player.ChatSettings != null) && (Player.ChatSettings.ShowActivities != null) && !Player.ChatSettings.ShowActivities) return;
 			
@@ -1075,10 +1074,10 @@ function ChatRoomClick() {
 
 	// When the user character kneels
 	if (MouseIn(1254, 0, 120, 62) && Player.CanKneel()) {
-		ServerSend("ChatRoomChat", { Content: (Player.ActivePose == null) ? "KneelDown" : "StandUp", Type: "Action", Dictionary: [{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
-		ChatRoomStimulationMessage("Kneel")
-		CharacterSetActivePose(Player, (Player.ActivePose == null) ? "Kneel" : null, true);
-		ChatRoomStimulationMessage("Kneel")
+		const PlayerIsKneeling = Player.ActivePose && Player.ActivePose.includes("Kneel");
+		ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary: [{ Tag: "SourceCharacter", Text: Player.Name, MemberNumber: Player.MemberNumber }] });
+		CharacterSetActivePose(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
+		ChatRoomStimulationMessage("Kneel");
 		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 	}
 
@@ -1563,7 +1562,7 @@ function ChatRoomMessage(data) {
 					}
 					
 					// Handle stimulation
-					if ((orig_msg == "HelpKneelDown" || orig_msg == "HelpStandUp") && ((TargetMemberNumber != null) && (TargetMemberNumber == Player.MemberNumber)) || ((SenderCharacter.MemberNumber != null) && (SenderCharacter.MemberNumber == Player.MemberNumber))) {
+					if ((orig_msg == "HelpKneelDown" || orig_msg == "HelpStandUp") && ((TargetMemberNumber != null && TargetMemberNumber == Player.MemberNumber) || (SenderCharacter.MemberNumber != null && SenderCharacter.MemberNumber == Player.MemberNumber))) {
 						ChatRoomStimulationMessage("Kneel")
 					}
 
@@ -1906,15 +1905,12 @@ function ChatRoomSyncItem(data) {
 
 			// From another user, we prevent changing the item if the current item is locked by owner/lover locks
 			if (!FromOwner) {
-				var Item = InventoryGet(ChatRoomCharacter[C], data.Item.Group);
+				const Item = InventoryGet(ChatRoomCharacter[C], data.Item.Group);
 				if ((Item != null) && (InventoryOwnerOnlyItem(Item) || (!FromLoversOrOwner && InventoryLoverOnlyItem(Item)))) {
-					if (data.Item.Property == null) return;
-					if (Item.Asset.OwnerOnly) return;
-					if (Item.Asset.LoverOnly) return;
-					if (Item.Asset.Name === data.Item.Name) {
-						ServerItemCopyProperty(ChatRoomCharacter[C], Item, data.Item.Property)
+					if (!ChatRoomAllowChangeLockedItem(data, Item)) return;
+					else if (Item.Asset.Name === data.Item.Name && data.Item.Property != null) {
+						ServerItemCopyProperty(ChatRoomCharacter[C], Item, data.Item.Property);
 					}
-					return;
 				}
 			}
 
