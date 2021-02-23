@@ -52,6 +52,3 @@ function PHCellHall1StripInmate1() {
     CharacterNaked(PHCellHall1Inmate1)
 }
 
-function PHCellHall1Inmate1ArmsUp() {
-    CharacterSetActivePose(PHCellHall1Inmate1, "Yoked") 
-}
