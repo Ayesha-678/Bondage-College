@@ -240,7 +240,7 @@ function ModularItemMapOptionToButtonDefinition(option, optionIndex, module, { a
 	const C = CharacterGetCurrent();
 	const optionName = `${module.Key}${optionIndex}`;
 	let color = "#fff";
-	if (DialogFocusItem.Property.Type && DialogFocusItem.Property.Type.includes(optionName)) color = "#888";
+	if (currentOptionIndex === optionIndex) color = "#888";
 	// else if (DialogFocusItem.Property.LockedBy && !DialogCanUnlock(C, DialogFocusItem)) color = "pink";
 	else if (ModularItemRequirementCheckMessageMemo(option)) color = "pink";
 	return [

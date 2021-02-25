@@ -178,15 +178,33 @@ function ServerPlayerSync() {
 }
 
 /**
- * Syncs the full player inventory to the server. The inventory is a stringified object compressed with LZString
+ * Syncs the full player inventory to the server.
  * @returns {void} - Nothing
  */
 function ServerPlayerInventorySync() {
-	var Inv = [];
-	for (let I = 0; I < Player.Inventory.length; I++)
-		if (Player.Inventory[I].Asset != null)
-			Inv.push([Player.Inventory[I].Asset.Name, Player.Inventory[I].Asset.Group.Name]);
-	ServerSend("AccountUpdate", { Inventory: LZString.compressToUTF16(JSON.stringify(Inv)) });
+	const Inv = {};
+	for (let I = 0; I < Player.Inventory.length; I++) {
+		if (Player.Inventory[I].Asset != null) {
+			let G = Inv[Player.Inventory[I].Asset.Group.Name];
+			if (G === undefined) {
+				G = Inv[Player.Inventory[I].Asset.Group.Name] = [];
+			}
+			G.push(Player.Inventory[I].Asset.Name);
+		}
+	}
+	ServerSend("AccountUpdate", { Inventory: Inv });
+}
+
+/**
+ * Syncs player's blocked, limited and hidden items to the server
+ * @returns {void} - Nothing
+ */
+function ServerPlayerBlockItemsSync() {
+	ServerSend("AccountUpdate", {
+		BlockItems: CommonPackItemArray(Player.BlockItems),
+		LimitedItems: CommonPackItemArray(Player.LimitedItems),
+		HiddenItems: Player.HiddenItems
+	});
 }
 
 /**
@@ -281,7 +299,7 @@ function ServerValidateProperties(C, Item, Validation) {
 	}
 
 	// For each effect on the item
-	if ((Item.Property != null) && (Item.Property.Effect != null)) {
+	if ((Item.Property != null) && Array.isArray(Item.Property.Effect)) {
 		for (let E = Item.Property.Effect.length - 1; E >= 0; E--) {
 
 			// Make sure the item or its subtype can be locked, remove any lock that's invalid
