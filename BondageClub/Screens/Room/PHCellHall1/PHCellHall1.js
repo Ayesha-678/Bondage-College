@@ -7,6 +7,8 @@ function PHCellHall1Run() {
     DrawCharacter(Player, 750, 0, 1);
     DrawCharacter(PHCellHall1Inmate1, 250, 0, 1);
     if (Player.CanWalk()) DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png", TextGet("Leave"));
+    if (Player.CanWalk() && (PrisonHallInmateAccess == true) ) DrawButton(1885, 255, 90, 90, "", "White", "Icons/Cage.png", TextGet("Cell1"));
+
 
 }
 
@@ -15,6 +17,8 @@ function PHCellHall1Click() {
     if (MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(Player);
     if (MouseIn(250, 0, 500, 1000)) CharacterSetCurrent(PHCellHall1Inmate1);
     if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "PrisonHall");
+    if (MouseIn(1885, 225, 90, 90) && Player.CanWalk() && (PrisonHallInmateAccess == true) ) CommonSetScreen("Room", "PHCell1");
+
 
 
 }
