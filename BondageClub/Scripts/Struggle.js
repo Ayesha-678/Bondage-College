@@ -151,7 +151,8 @@ function StruggleProgressStart(C, PrevItem, NextItem) {
 	StruggleProgress = 0;
 	DialogMenuButtonBuild(C);
 		
-	if (C != Player || PrevItem == null) {
+	if (C != Player || PrevItem == null ||
+		((PrevItem != null) && (!InventoryItemHasEffect(PrevItem, "Lock", true) || DialogCanUnlock(C, PrevItem)) && ((Player.CanInteract() && !InventoryItemHasEffect(PrevItem, "Mounted", true)) || StruggleStrengthGetDifficulty(C, PrevItem, NextItem).auto >= 0))) {
 		StruggleProgressCurrentMinigame = "Strength"
 		StruggleStrengthStart(C, StruggleProgressChoosePrevItem, StruggleProgressChooseNextItem);
 	}
@@ -304,7 +305,6 @@ function StruggleStrength(Reverse) {
 
 	
 }
-
 /**
  * Starts the dialog progress bar for struggling out of bondage and keeps the items that needs to be added / swapped / removed.
  * First the challenge level is calculated based on the base item difficulty, the skill of the rigger and the escapee and modified, if
@@ -314,9 +314,7 @@ function StruggleStrength(Reverse) {
  * @param {Item} [NextItem] - The item that should substitute the first one
  * @returns {void} - Nothing
  */
-function StruggleStrengthStart(C, PrevItem, NextItem) {
-
-	// Gets the required skill / challenge level based on player/rigger skill and item difficulty (0 by default is easy to struggle out)
+function StruggleStrengthGetDifficulty(C, PrevItem, NextItem) {
 	var S = 0;
 	if ((PrevItem != null) && (C.ID == 0)) {
 		S = S + SkillGetWithRatio("Evasion"); // Add the player evasion level (modified by the effectiveness ratio)
@@ -348,14 +346,33 @@ function StruggleStrengthStart(C, PrevItem, NextItem) {
 		var Lock = InventoryGetLock(PrevItem);
 		if ((Lock != null) && (Lock.Asset != null) && (Lock.Asset.RemoveTime != null)) Timer = Timer + Lock.Asset.RemoveTime;
 	}
+	
+	return {difficulty: S, auto: TimerRunInterval * (0.22 + (((S <= -10) ? -9 : S) * 0.11)) / (Timer * CheatFactor("DoubleItemSpeed", 0.5)), timer: Timer};
+}
+
+/**
+ * Starts the dialog progress bar for struggling out of bondage and keeps the items that needs to be added / swapped / removed.
+ * First the challenge level is calculated based on the base item difficulty, the skill of the rigger and the escapee and modified, if
+ * the escapee is bound in a way. Also blushing and drooling, as well as playing a sound is handled in this function.
+ * @param {Character} C - The character who tries to struggle
+ * @param {Item} PrevItem - The item, the character wants to struggle out of
+ * @param {Item} [NextItem] - The item that should substitute the first one
+ * @returns {void} - Nothing
+ */
+function StruggleStrengthStart(C, PrevItem, NextItem) {
+
+	// Gets the required skill / challenge level based on player/rigger skill and item difficulty (0 by default is easy to struggle out)
+	var StruggleDiff = StruggleStrengthGetDifficulty(C, PrevItem, NextItem)
+	var S = StruggleDiff.difficulty;
+	
 
 	// Prepares the progress bar and timer
 	StruggleProgress = 0;
-	StruggleProgressAuto = TimerRunInterval * (0.22 + (((S <= -10) ? -9 : S) * 0.11)) / (Timer * CheatFactor("DoubleItemSpeed", 0.5));  // S: -9 is floor level to always give a false hope
+	StruggleProgressAuto = StruggleDiff.auto;  // S: -9 is floor level to always give a false hope
 	StruggleProgressPrevItem = PrevItem;
 	StruggleProgressNextItem = NextItem;
 	StruggleProgressOperation = StruggleProgressGetOperation(C, PrevItem, NextItem);
-	StruggleProgressSkill = Timer;
+	StruggleProgressSkill = StruggleDiff.timer;
 	StruggleProgressChallenge = S * -1;
 	StruggleProgressLastKeyPress = 0;
 	StruggleProgressStruggleCount = 0;
@@ -999,26 +1016,49 @@ function StruggleDrawLockpickProgress(C) {
 			}
 		}
 	} else {
-		if ( Player.ArousalSettings && Player.ArousalSettings.Progress > 20 && StruggleLockPickProgressCurrentTries < StruggleLockPickProgressMaxTries && StruggleLockPickProgressCurrentTries > 0) {
+		if ( Player.ArousalSettings && (Player.ArousalSettings.Active != "Inactive" && Player.ArousalSettings.Active != "NoMeter") && Player.ArousalSettings.Progress > 20 && StruggleLockPickProgressCurrentTries < StruggleLockPickProgressMaxTries && StruggleLockPickProgressCurrentTries > 0) {
 			if (CurrentTime > StruggleLockPickArousalTick) {
 				var arousalmaxtime = 2.6 - 2.0*Player.ArousalSettings.Progress/100
 				if (StruggleLockPickArousalTick - CurrentTime > CurrentTime + StruggleLockPickArousalTickTime*arousalmaxtime) {
 					StruggleLockPickArousalTick = CurrentTime + StruggleLockPickArousalTickTime*arousalmaxtime // In case it gets set out way too far
 				}
-
-				if (StruggleLockPickArousalTick > 0 && StruggleLockPickSet.filter(x => x==true).length > 0) {
-					StruggleLockPickArousalText = DialogFindPlayer("LockPickArousal")
-					if (StruggleLockPickSet.filter(x => x==true).length < StruggleLockPickSet.length) {
-						for (let P = StruggleLockPickOrder.length; P >= 0; P--) {
-							if (StruggleLockPickSet[StruggleLockPickOrder[P]] == true) {
-								StruggleLockPickOffsetTarget[StruggleLockPickOrder[P]] = 0
-								StruggleLockPickSet[StruggleLockPickOrder[P]] = false
-								break;
+				var totalSet = StruggleLockPickSet.filter(x => x==true).length + StruggleLockPickSetFalse.filter(x => x==true).length
+				if (StruggleLockPickArousalTick > 0 && totalSet > 0) {
+					var RealUnsetChance = StruggleLockPickSet.filter(x => x==true).length / (totalSet)
+					if (Math.random() < RealUnsetChance) {
+						if (StruggleLockPickSet.filter(x => x==true).length > 0) {
+							if (StruggleLockPickSet.filter(x => x==true).length < StruggleLockPickSet.length) {
+								for (let P = StruggleLockPickOrder.length; P >= 0; P--) {
+									if (StruggleLockPickSet[StruggleLockPickOrder[P]] == true) {
+										StruggleLockPickOffsetTarget[StruggleLockPickOrder[P]] = 0
+										StruggleLockPickSet[StruggleLockPickOrder[P]] = false
+										break;
+									}
+								}
+							}
+						}
+					} else {
+						if (StruggleLockPickSetFalse.filter(x => x==true).length > 0) {
+							if (StruggleLockPickSetFalse.filter(x => x==true).length < StruggleLockPickSetFalse.length) {
+								var looped = false;
+								var startLoop = Math.floor(Math.random() * StruggleLockPickOrder.length)
+								var P = startLoop;
+								while (!looped) {
+									if (StruggleLockPickSetFalse[P] == true) {
+										StruggleLockPickOffsetTarget[P] = 0
+										StruggleLockPickSetFalse[P] = false
+										break;
+									}
+									P += 1
+									if (P >= StruggleLockPickOrder.length) P = 0
+									if (P == startLoop) looped = true
+								}
 							}
 						}
 					}
+										
+					StruggleLockPickArousalText = DialogFindPlayer("LockPickArousal")
 				}
-				
 				var arousalmod = (0.3 + Math.random()*0.7) * (arousalmaxtime) // happens very often at 100 arousal
 				StruggleLockPickArousalTick = CurrentTime + StruggleLockPickArousalTickTime * arousalmod
 			}
@@ -1072,7 +1112,7 @@ function StruggleLockPickProgressStart(C, Item) {
 	var LockPickingImpossible = false
 	if (Item != null && lock) {
 		// Gets the lock rating
-		var BondageLevel = (Item.Difficulty - Item.Asset.Difficulty)
+		var BondageLevel = Item.Difficulty - Item.Asset.Difficulty
 		
 		// Gets the required skill / challenge level based on player/rigger skill and item difficulty (0 by default is easy to pick)
 		var S = 0;
@@ -1206,7 +1246,7 @@ function StruggleLockPickProgressStart(C, Item) {
 				// negative skill of 6 subtracts 12 from all locks
 	
 
-		StruggleLockPickProgressMaxTries = NumTries - NumPins;
+		StruggleLockPickProgressMaxTries = Math.max(1, NumTries - NumPins);
 	}
 }
 
