@@ -11,7 +11,7 @@ function PHCell1Run() {
 
 function PHCell1Click() {
     if (MouseIn(750, 0, 500, 1000)) CharacterSetCurrent(Player);
-    if (MouseIn(50, 400, 500, 600)) CharacterSetCurrent(PHCell1Vent);
+    if (MouseIn(50, 150, 500, 200)) CharacterSetCurrent(PHCell1Vent);
 
 
 }
