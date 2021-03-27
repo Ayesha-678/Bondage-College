@@ -1,7 +1,7 @@
 "use strict";
 var KidnapVictory = false;
 var KidnapDifficulty = 0;
-var KidnapBackground = "KidnapLeagueDark";
+var KidnapBackground = "KidnapLeague";
 var KidnapReturnFunction = "";
 var KidnapOpponent = null;
 var KidnapPlayerCloth = null;
