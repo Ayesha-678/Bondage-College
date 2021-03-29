@@ -248,7 +248,7 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
  * @returns {string} - The warning message
  */
 function ValidationItemWarningMessage(item, { C, sourceMemberNumber }) {
-	return `${item.Asset.Name} on member number ${C.MemberNumber} by member number ${sourceMemberNumber} blocked`;
+	return `${item.Asset.Name} on member number ${C.IsNpc() ? C.Name : C.MemberNumber} by member number ${sourceMemberNumber || Player.MemberNumber} blocked`;
 }
 
 /**

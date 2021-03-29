@@ -15,6 +15,13 @@
  *     object | undefined}>} AppearanceBundle
  */
 
+/**
+ * A map containing appearance item diffs, keyed according to the item group. Used to compare and validate before/after
+ * for appearance items.
+ * @typedef AppearanceDiffMap
+ * @type {object.<string, Item[]>}
+ */
+
 "use strict";
 /** @type {import("socket.io-client").Socket} */
 var ServerSocket = null;
@@ -314,10 +321,17 @@ function ServerAppearanceLoadFromBundle(C, AssetFamily, Bundle, SourceMemberNumb
 		console.warn("Invalid appearance update bundle received. Updating with sanitized appearance.");
 		ChatRoomCharacterUpdate(C);
 	}
-	return appearance;
+	return { appearance, updateValid };
 }
 
-// TODO: JSDoc for all this stuff
+/**
+ * Builds a diff map for comparing changes to a character's appearance, keyed by asset group name
+ * @param {string} assetFamily - The asset family of the appearance
+ * @param {AppearanceItem[]} appearance - The current appearance to compare against
+ * @param {AppearanceBundle} bundle - The new appearance bundle
+ * @returns {AppearanceDiffMap} - An appearance diff map representing the changes that have been made to the character's
+ * appearance
+ */
 function ServerBuildAppearanceDiff(assetFamily, appearance, bundle) {
 	const diffMap = {};
 	appearance.forEach((item) => {
@@ -333,6 +347,13 @@ function ServerBuildAppearanceDiff(assetFamily, appearance, bundle) {
 	return diffMap;
 }
 
+/**
+ * Maps a bundled appearance item, as stored on the server and used for appearance update messages, into a full
+ * appearance item, as used by the game client
+ * @param {string} assetFamily - The asset family of the appearance item
+ * @param {AppearanceBundleItem} item - The bundled appearance item
+ * @returns {AppearanceItem} - A full appearance item representation of the provided bundled appearance item
+ */
 function ServerBundledItemToAppearanceItem(assetFamily, item) {
 	if (!item || typeof item !== "object" || typeof item.Name !== "string" || typeof item.Group !==
 	    "string") return null;
@@ -348,6 +369,13 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
 	};
 }
 
+/**
+ * Parses an item color, based on the allowed colorable layers on an asset, and the asset's color schema
+ * @param {Asset} asset - The asset on which the color is set
+ * @param {string|string[]} color - The color value to parse
+ * @param {string[]} schema - The color schema to validate against
+ * @returns {string|string[]} - A parsed valid item color
+ */
 function ServerParseColor(asset, color, schema) {
 	if (Array.isArray(color)) {
 		if (color.length > asset.ColorableLayerCount) color = color.slice(0, asset.ColorableLayerCount);
@@ -357,6 +385,13 @@ function ServerParseColor(asset, color, schema) {
 	}
 }
 
+/**
+ * Populates an appearance diff map with any required items, to ensure that all asset groups are present that need to
+ * be.
+ * @param {string} assetFamily - The asset family for the appearance
+ * @param {AppearanceDiffMap} diffMap - The appearance diff map to populate
+ * @returns {void} - Nothing
+ */
 function ServerAddRequiredAppearance(assetFamily, diffMap) {
 	AssetGroup.forEach(group => {
 		// If it's not in the appearance category or is allowed to empty, return

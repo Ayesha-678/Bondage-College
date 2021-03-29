@@ -16,6 +16,8 @@ function InfiltrationLoad() {
 		InventoryWear(InfiltrationSupervisor, "FishnetBikini1", "Bra", "#222222");
 		InventoryWear(InfiltrationSupervisor, "LatexAnkleShoes", "Shoes", "#222222");
 	}
+	if (Player.Infiltration == null) Player.Infiltration = {};
+	if (Player.Infiltration.Perks == null) Player.Infiltration.Perks = "";
 }
 
 /**
@@ -38,4 +40,5 @@ function InfiltrationClick() {
 	if (MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(InfiltrationSupervisor);
 	if (MouseIn(1885, 25, 90, 90) && Player.CanWalk()) CommonSetScreen("Room", "MainHall");
 	if (MouseIn(1885, 145, 90, 90)) InformationSheetLoadCharacter(Player);
+	if (MouseIn(1885, 265, 90, 90)) CommonSetScreen("Room", "InfiltrationPerks");
 }
